@@ -8,12 +8,15 @@ const addItem = async (
   next: express.NextFunction
 ) => {
   try {
-    const { name, description, prod_code, drive_id } = req.body;
+    const { name, description, sku, model, brand, price, images } = req.body;
     const newObj: newProductProps = {
       name,
       description,
-      prod_code,
-      drive_id,
+      sku,
+      model,
+      brand,
+      price,
+      images,
     };
     const product = await addProduct(newObj);
     res.json({ product, success: true });

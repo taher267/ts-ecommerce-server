@@ -1,10 +1,13 @@
 import mg from "mongoose";
 import { newProductCategoryProps } from "types";
 
-const productCategorySchema = new mg.Schema({
-  category_id: { type: mg.Types.ObjectId, ref: "Category" },
-  product_id: { type: mg.Types.ObjectId, ref: "Product" },
-});
+const productCategorySchema = new mg.Schema(
+  {
+    category_id: { type: mg.Types.ObjectId, ref: "Category" },
+    product_id: { type: mg.Types.ObjectId, ref: "Product" },
+  },
+  { collection: "productCategories" }
+);
 
 const ProductCategory = mg.model("ProductCategory", productCategorySchema);
 

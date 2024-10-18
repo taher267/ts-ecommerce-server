@@ -1,10 +1,13 @@
 import mg from "mongoose";
 import { newProductColorProps } from "types";
 
-const productColorSchema = new mg.Schema({
-  product_id: { type: mg.Types.ObjectId, ref: "Product" },
-  color_id: { type: mg.Types.ObjectId, ref: "Color" },
-});
+const productColorSchema = new mg.Schema(
+  {
+    product_id: { type: mg.Types.ObjectId, ref: "Product" },
+    color_id: { type: mg.Types.ObjectId, ref: "Color" },
+  },
+  { collection: "productColors" }
+);
 
 const ProductColor = mg.model("ProductColor", productColorSchema);
 

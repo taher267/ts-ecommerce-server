@@ -1,10 +1,15 @@
 import { ObjectId } from "mongodb";
-
+interface Image {
+  url: string;
+}
 export interface newProductProps {
-  name?: string;
+  name: string;
   description?: string;
-  prod_code: string;
-  drive_id: string;
+  sku: string;
+  model?: string;
+  brand?: string;
+  price: number;
+  images: Image[];
 }
 export interface newCategoryProps {
   name: string;
