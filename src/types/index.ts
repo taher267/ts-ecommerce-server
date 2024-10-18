@@ -6,6 +6,15 @@ export interface newProductProps {
   prod_code: string;
   drive_id: string;
 }
+export interface newCategoryProps {
+  name: string;
+  _id?: ObjectId;
+}
+export interface newProductCategoryProps {
+  category_id: string;
+  product_id: string;
+  _id?: ObjectId;
+}
 export interface AccessTokenProps {
   access_token: string;
   expires_in: number;
@@ -30,12 +39,7 @@ export interface newSizeProps {
   _id?: ObjectId;
 }
 
-export interface newCategoryProps {
-  name: string;
-  _id?: ObjectId;
-}
 export interface newProductSizeProps {
-  name: string;
   _id?: ObjectId;
   size_id: ObjectId;
   product_id: ObjectId;
@@ -50,6 +54,6 @@ export interface newColorProps {
 
 export interface newProductColorProps {
   _id?: ObjectId;
-  name?: string;
-  code: string;
+  product_id: string;
+  color_id: string;
 }

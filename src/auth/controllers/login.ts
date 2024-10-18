@@ -8,10 +8,9 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
     if (!email || !password) {
       return res.sendStatus(400);
     }
-    const user = await getUserByEmail(email)
-      .select("+authentication.salt +authentication.password")
-      .exec();
-
+    const user = await getUserByEmail(email).select(
+      "+authentication.salt +authentication.password"
+    );
     if (!user || !user?.authentication?.salt) {
       return res
         .sendStatus(400)

@@ -11,6 +11,7 @@ const userSchema = new Schema({
 
 export const User = model("User", userSchema);
 export const getUsers = (qry?: object) => User.find(qry || {});
+export const getUser = (qry: object) => User.findOne(qry);
 export const getUserByEmail = (email: string) => User.findOne({ email });
 export const getUserBySessionToken = (sessionToken: string) =>
   User.findOne({ "authentication.sessionToken": sessionToken });

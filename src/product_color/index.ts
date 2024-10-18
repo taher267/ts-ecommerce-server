@@ -11,7 +11,9 @@ const ProductColor = mg.model("ProductColor", productColorSchema);
 export default ProductColor;
 
 export const getProductColors = (query: Record<string, any>) =>
-  ProductColor.find(query).exec();
+  ProductColor.find(query);
+export const getProductColor = (query: Record<string, any> = {}, select = "") =>
+  ProductColor.findOne(query).select(select).exec();
 
 export const addProductColor = (query: newProductColorProps) =>
   new ProductColor(query).save().then((data) => data.toObject());

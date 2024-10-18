@@ -2,16 +2,18 @@ import mg from "mongoose";
 import { newCategoryProps } from "types";
 
 const categorySchema = new mg.Schema({
-  category_id: { type: mg.Types.ObjectId, ref: "Category" },
-  product_id: { type: mg.Types.ObjectId, ref: "Product" },
+  name: { type: String, required: true },
 });
 
 const Category = mg.model("Category", categorySchema);
 
 export default Category;
 
-export const getCategorys = (query: Record<string, any>) =>
-  Category.find(query).exec();
+export const getCategories = (query: Record<string, any>) =>
+  Category.find(query);
+
+export const getCategory = (query: Record<string, any> = {}) =>
+  Category.findOne(query);
 
 export const addCategory = (query: newCategoryProps) =>
   new Category(query).save().then((data) => data.toObject());

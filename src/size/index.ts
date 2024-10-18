@@ -9,7 +9,8 @@ const Size = mg.model("Size", sizeSchema);
 
 export default Size;
 
-export const getSizes = (query: Record<string, any>) => Size.find(query).exec();
-
+export const getSizes = (query: Record<string, any>) => Size.find(query);
+export const getSize = (query: Record<string, any> = {}, select = "") =>
+  Size.findOne(query).select(select).exec();
 export const addSize = (query: newSizeProps) =>
   new Size(query).save().then((data) => data.toObject());
