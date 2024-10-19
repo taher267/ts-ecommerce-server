@@ -5,11 +5,12 @@ interface Image {
 export interface newProductProps {
   name: string;
   slug: string;
-  description?: string;
+  description: string;
   sku: string;
   model?: string;
   brand?: string;
   price: number;
+  currency?: string;
   images: Image[];
 }
 export interface newCategoryProps {

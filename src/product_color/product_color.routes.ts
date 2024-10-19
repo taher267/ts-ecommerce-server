@@ -1,6 +1,5 @@
 import express from "express";
 import { addItem, getAllItems } from "@/product_color/controllers";
-import validations from "./product_color.validation";
 const router = express.Router();
 /**
  * @method GET
@@ -13,5 +12,5 @@ router.get("/", getAllItems);
  * @url base_url/api/v1/product_colors
  * @permession ADMIN
  */
-router.post("/", validations.isValidNewProduct, addItem);
+router.post("/", addItem);
 export default router;
