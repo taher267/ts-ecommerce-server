@@ -1,5 +1,5 @@
 import express from "express";
-import { getSizes } from "@/size";
+import { getTags } from "@/tag";
 const getAllItems = async (
   req: express.Request,
   res: express.Response,
@@ -7,7 +7,7 @@ const getAllItems = async (
 ) => {
   try {
     // const { query } = req;
-    const items = await getSizes({});
+    const items = await getTags({});
     res.status(200).json({ items, code: 200 });
   } catch (e) {
     next(e);

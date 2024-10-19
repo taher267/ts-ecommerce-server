@@ -1,5 +1,5 @@
 import express from "express";
-import { getSizes } from "@/size";
+import { getProductSizes } from "@/product_size";
 const getAllItems = async (
   req: express.Request,
   res: express.Response,
@@ -7,8 +7,8 @@ const getAllItems = async (
 ) => {
   try {
     // const { query } = req;
-    const items = await getSizes({});
-    res.status(200).json({ items, code: 200 });
+    const items = await getProductSizes({});
+    res.json({ items });
   } catch (e) {
     next(e);
   }

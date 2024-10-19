@@ -1,6 +1,7 @@
 import express from "express";
 import { addItem, getAllItems } from "@/color/controllers";
-import validations from "./color.validation";
+import validator from "@/validation/zod.schema.validator";
+import colorSchemas from "@/validation/validation_schemas/color.schemas";
 const router = express.Router();
 /**
  * @method GET
@@ -13,5 +14,5 @@ router.get("/", getAllItems);
  * @url base_url/api/v1/colors
  * @permession ADMIN
  */
-router.post("/", validations.isValidNewProduct, addItem);
+router.post("/", validator(colorSchemas.colorAddSchema), addItem);
 export default router;

@@ -2,8 +2,14 @@ import mg from "mongoose";
 import { newColorProps } from "types";
 
 const colorSchema = new mg.Schema({
-  name: { type: String, required: false },
-  code: { type: String, required: true },
+  name: { type: String, required: false, minlength: 3, maxlength: 50 },
+  code: {
+    type: String,
+    required: true,
+    unique: true,
+    minlength: 4,
+    maxlength: 9,
+  },
 });
 
 const Color = mg.model("Color", colorSchema);

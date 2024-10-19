@@ -2,7 +2,13 @@ import mg from "mongoose";
 import { newSizeProps } from "types";
 
 const sizeSchema = new mg.Schema({
-  name: { type: String, required: true },
+  name: {
+    type: String,
+    required: true,
+    unique: true,
+    minlength: 1,
+    maxlength: 50,
+  },
 });
 
 const Size = mg.model("Size", sizeSchema);

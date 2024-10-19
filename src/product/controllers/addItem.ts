@@ -1,6 +1,7 @@
 import express from "express";
 import { addProduct } from "@/product";
 import { newProductProps } from "types";
+import slugify from "slugify";
 
 const addItem = async (
   req: express.Request,
@@ -8,7 +9,9 @@ const addItem = async (
   next: express.NextFunction
 ) => {
   try {
-    const { name, description, sku, model, brand, price, images } = req.body;
+    const { name, description, sku, model, brand, price, images, slug } =
+      req.body;
+    const s = slug ?? `${slugify(name)}-${sku}`;
     const newObj: newProductProps = {
       name,
       description,
@@ -16,10 +19,11 @@ const addItem = async (
       model,
       brand,
       price,
+      slug: s,
       images,
     };
-    const product = await addProduct(newObj);
-    res.json({ product, success: true });
+    const item = await addProduct(newObj);
+    res.status(201).json({ item, success: true });
   } catch (e) {
     next(e);
   }

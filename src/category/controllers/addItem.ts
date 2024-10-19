@@ -12,8 +12,8 @@ const addItem = async (
     const newObj: newCategoryProps = {
       name,
     };
-    const product = await addCategory(newObj);
-    res.json({ product, success: true });
+    const item = await addCategory(newObj);
+    res.json({ item, success: true });
   } catch (e) {
     next(e);
   }

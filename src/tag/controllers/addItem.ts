@@ -1,6 +1,6 @@
 import express from "express";
-import { addSize } from "@/size";
-import { newSizeProps } from "types";
+import { addTag } from "@/tag";
+import { newTagProps } from "types";
 
 const addItem = async (
   req: express.Request,
@@ -9,10 +9,10 @@ const addItem = async (
 ) => {
   try {
     const { name } = req.body;
-    const newObj: newSizeProps = {
+    const newObj: newTagProps = {
       name,
     };
-    const item = await addSize(newObj);
+    const item = await addTag(newObj);
     // const item = {
     //   name,
     // };

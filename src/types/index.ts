@@ -4,6 +4,7 @@ interface Image {
 }
 export interface newProductProps {
   name: string;
+  slug: string;
   description?: string;
   sku: string;
   model?: string;
@@ -61,4 +62,15 @@ export interface newProductColorProps {
   _id?: ObjectId;
   product_id: string;
   color_id: string;
+}
+
+export interface newTagProps {
+  _id?: ObjectId;
+  name: string;
+}
+
+export interface newProductTagProps {
+  _id?: ObjectId;
+  product_id: string;
+  tag_id: string;
 }

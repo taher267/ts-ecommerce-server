@@ -6,12 +6,14 @@ const Image = {
 };
 const productSchema = new mg.Schema(
   {
-    name: { type: String, required: true, index: 1 },
+    name: { type: String, required: true, index: 1, min: 5, max: 100 },
+    slug: { type: String, required: true, unique: true, index: 1 },
     description: { type: String, required: true, index: 1 },
     sku: { type: String, required: true, unique: true, index: 1 },
     model: { type: String, index: 1 },
     brand: { type: String, index: 1 },
     price: { type: Number, required: true },
+    features: [String],
     images: [Image],
   },
   { timestamps: true }

@@ -1,6 +1,5 @@
 import ex from "express";
-import { addCategory } from "@/category";
-import { newCategoryProps } from "types";
+import { getTag } from "@/tag";
 
 const getItem = async (
   req: ex.Request,
@@ -8,11 +7,9 @@ const getItem = async (
   next: ex.NextFunction
 ) => {
   try {
-    const { name } = req.body;
-    const newObj: newCategoryProps = {
-      name,
-    };
-    const item = await addCategory(newObj);
+    // const {  } = req.body;
+
+    const item = await getTag({});
     res.json({ item, success: true });
   } catch (e) {
     next(e);

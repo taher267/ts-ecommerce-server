@@ -7,8 +7,8 @@ const getAllItems = async (
 ) => {
   try {
     // const { query } = req;
-    const products = await getCategories({});
-    res.json({ products });
+    const items = await getCategories({});
+    res.json({ items });
   } catch (e) {
     next(e);
   }

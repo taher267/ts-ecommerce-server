@@ -2,7 +2,7 @@ import mg from "mongoose";
 import { newCategoryProps } from "types";
 
 const categorySchema = new mg.Schema({
-  name: { type: String, required: true },
+  name: { type: String, required: true, minlength: 4, maxlength: 50 },
 });
 
 const Category = mg.model("Category", categorySchema);
