@@ -1,8 +1,19 @@
 import express from "express";
-import { addItem, getAllItems } from "@/product/controllers";
+import {
+  addItem,
+  getAllItems,
+  getItem,
+  removeItem,
+} from "@/product/controllers";
 import schemas from "@/validation/validation_schemas/product.schemas";
 import validator from "@/validation/zod.schema.validator";
 const router = express.Router();
+/**
+ * @method POST
+ * @url base_url/api/v1/products
+ * @permession ADMIN
+ */
+router.post("/", validator(schemas.productAddSchema), addItem);
 /**
  * @method GET
  * @url base_url/api/v1/products
@@ -10,9 +21,9 @@ const router = express.Router();
  */
 router.get("/", getAllItems);
 /**
- * @method POST
- * @url base_url/api/v1/products
- * @permession ADMIN
+ * @method GET
+ * @url base_url/api/v1/products/:id
+ * @permession Public
  */
-router.post("/", validator(schemas.productAddSchema), addItem);
+router.route("/:id").get(getItem).delete(removeItem);
 export default router;

@@ -1,0 +1,19 @@
+### Add Products
+POST http://localhost:4005/api/v1/products
+Content-Type: application/json
+
+{
+    "name": "Adidas Men's Kaptir Super Trail",
+    "description": "In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before the final copy is available", 
+    "regular_price": 1,
+    "sku": "C-5",
+    "model":"J-F0",
+    "brand":"Jaza",
+    "currenty":"BDT",
+    "features":["Made with full cotton","Slim fit for any body","Quality control by JC"],    
+    "images":[{"url":"https://res.cloudinary.com/dizyugwtg/image/upload/v1729354779/e-com/products/6713dc184028ae962a087052.png"}]    
+}
+
+### get Products
+GET http://localhost:4005/api/v1/products
+Content-Type: application/json

@@ -6,10 +6,12 @@ export interface newProductProps {
   name: string;
   slug: string;
   description: string;
+  features?: string[];
   sku: string;
   model?: string;
   brand?: string;
-  price: number;
+  regular_price: number;
+  sale_price?: number;
   currency?: string;
   images: Image[];
 }

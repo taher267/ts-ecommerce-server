@@ -7,8 +7,8 @@ const getAllItems = async (
 ) => {
   try {
     // const { query } = req;
-    const products = await getProducts({});
-    res.json({ products });
+    const items = await getProducts({}).sort("-createdAt");
+    res.json({ items });
   } catch (e) {
     next(e);
   }

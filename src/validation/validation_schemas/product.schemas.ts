@@ -8,14 +8,12 @@ const productAddSchema = z.object({
     })
     .min(10, { message: "Name must be at least 10 characters!" })
     .max(300, { message: "Name must be 300 characters or less" })
-    .trim()
-    .refine(async (name) => !Boolean(await getProduct({ name })), {
-      message: "Name already exists!",
-    }),
+    .trim(),
   slug: z
     .string({
       required_error: "Slug is required",
     })
+    .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, "Invalid slug format")
     .min(10, { message: "Slug must be at least 10 characters!" })
     .max(300, { message: "Slug must be 300 characters or less" })
     .trim()
@@ -34,15 +32,25 @@ const productAddSchema = z.object({
       required_error: "Description is required",
     })
     .min(10, { message: "Description must be at least 10 characters!" })
-    .max(300, { message: "Description must be 300 characters or less" })
+    .max(2500, { message: "Description must be 2500 characters or less" })
     .trim(),
+  features: z.array(z.string().trim()).optional(),
   sku: z
     .string({
       required_error: "SKU is required",
     })
     .min(1, { message: "SKU must be at least 1 characters!" })
     .max(50, { message: "SKU must be 50 characters or less" })
-    .trim(),
+    .trim()
+    .refine(
+      async (sku) => {
+        if (!sku) return true;
+        return !Boolean(await getProduct({ sku: new RegExp(sku, "i") }));
+      },
+      {
+        message: "SKU already exists!",
+      }
+    ),
   model: z
     .string({
       required_error: "Model is required",
@@ -59,12 +67,25 @@ const productAddSchema = z.object({
     .max(100, { message: "Brand must be 100 characters or less" })
     .trim()
     .optional(),
-  price: z
+  regular_price: z
     .number({
       required_error: "Price is required",
     })
     .min(1, { message: "Price must be at least 1 digits!" })
-    .max(9999999999, { message: "Price must be 9999999999 digits or less" }),
+    .max(99999999, { message: "Price must be 99999999 digits or less" }),
+  sale_price: z
+    .number({
+      required_error: "Sale price is required",
+    })
+    .min(1, { message: "Sale price must be at least 1 digits!" })
+    .max(99999999, { message: "Sale price must be 99999999 digits or less" })
+    .optional(),
+  // price: z
+  //   .number({
+  //     required_error: "Price is required",
+  //   })
+  //   .min(1, { message: "Price must be at least 1 digits!" })
+  //   .max(9999999999, { message: "Price must be 9999999999 digits or less" }),
   currency: z
     .string({
       required_error: "Currency is required",

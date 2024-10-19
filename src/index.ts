@@ -1,4 +1,5 @@
 import dotenv from "dotenv";
+dotenv.config();
 import express from "express";
 import http from "http";
 import cookieParser from "cookie-parser";
@@ -9,7 +10,6 @@ import routes from "./routes";
 import fileupload from "express-fileupload";
 import z from "zod";
 import morgan from "morgan";
-dotenv.config();
 
 const PORT = process.env.PORT || 4001;
 const app = express();
@@ -19,10 +19,7 @@ const middlewares = [
   express.urlencoded({ extended: true }),
   compression(),
   cookieParser(),
-  fileupload({
-    useTempFiles: true,
-    // tempFileDir: './dist/tmp/',
-  }),
+  fileupload(),
   morgan("dev"),
   // (
   //   req: express.Request,
@@ -45,7 +42,7 @@ app.use((_req, res) => {
   res.status(404).json({ message: `Not Found!` });
 });
 app.use((err, _req, res, _next) => {
-  // console.error(err.stack);
+  console.error(err.stack);
   const status = err?.status || 500,
     message = err?.message || `Internal server error`;
 
@@ -57,9 +54,10 @@ app.use((err, _req, res, _next) => {
       errorType: "validationError",
       message: "Validation failed",
       errors,
+      code: 400,
     });
   }
-  res.status(status).json({ message });
+  res.status(status).json({ message, code: status });
 });
 app.use("/api/v1/github", (req: express.Request, res: express.Response) => {
   const str = `<a href="https://github.com/login/oauth/authorize?client_id=${process.env.GITHUB_CLIENT_ID}&redirect_uri=${process.env.GITHUB_AUTH_CALLBACK}?path=/&scope=user:email"

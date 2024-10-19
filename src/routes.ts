@@ -6,6 +6,7 @@ import categoryRoute from "@/category/category.routes";
 import sizeRoute from "@/size/size.routes";
 import colorRoute from "@/color/color.routes";
 import tagRoute from "@/tag/tag.routes";
+import fileUploadRoute from "@/file/file.routes";
 // import productCategoryRoute from "@/product_category/product_category.routes";
 // import productSizeRoute from "@/product_size/product_size.routes";
 // import productColorRoute from "@/product_color/product_color.routes";
@@ -20,6 +21,7 @@ export default (): express.Router => {
   router.use("/sizes", sizeRoute);
   router.use("/colors", colorRoute);
   router.use("/tags", tagRoute);
+  router.use("/files", fileUploadRoute);
   // router.use("/product-categories", productCategoryRoute);
   // router.use("/product-size", productSizeRoute);
   // router.use("/product-colors", productColorRoute);
