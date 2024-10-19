@@ -8,9 +8,9 @@ const getItem = async (
   next: ex.NextFunction
 ) => {
   try {
-    const { category_id, product_id } = req.body;
+    const { category_ids, product_id } = req.body;
     const newObj: newProductCategoryProps = {
-      category_id,
+      category_ids,
       product_id,
     };
     const product = await addProductCategory(newObj);

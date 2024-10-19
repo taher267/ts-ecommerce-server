@@ -3,7 +3,9 @@ import { newProductCategoryProps } from "types";
 
 const productCategorySchema = new mg.Schema(
   {
-    category_id: { type: mg.Types.ObjectId, ref: "Category" },
+    category_ids: [
+      { type: mg.Types.ObjectId, ref: "Category", required: true },
+    ],
     product_id: { type: mg.Types.ObjectId, ref: "Product" },
   },
   { collection: "productCategories" }

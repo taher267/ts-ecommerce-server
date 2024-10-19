@@ -20,8 +20,8 @@ export interface newCategoryProps {
   _id?: ObjectId;
 }
 export interface newProductCategoryProps {
-  category_id: string;
-  product_id: string;
+  category_ids: ObjectId[];
+  product_id: ObjectId;
   _id?: ObjectId;
 }
 export interface AccessTokenProps {

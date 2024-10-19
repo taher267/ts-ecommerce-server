@@ -1,17 +1,16 @@
-### Add Products
+### Add Products 
 POST http://localhost:4005/api/v1/products
 Content-Type: application/json
 
 {
-    "name": "Adidas Men's Kaptir Super Trail",
+    "name": "Kiddo Winter Boys Jacket",
     "description": "In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before the final copy is available", 
-    "regular_price": 1,
-    "sku": "C-5",
-    "model":"J-F0",
-    "brand":"Jaza",
-    "currenty":"BDT",
+    "regular_price": 34.99,
+    "sku": "J-6",
+    "currenty":"$",
     "features":["Made with full cotton","Slim fit for any body","Quality control by JC"],    
-    "images":[{"url":"https://res.cloudinary.com/dizyugwtg/image/upload/v1729354779/e-com/products/6713dc184028ae962a087052.png"}]    
+    "categories":["6713e951f134174a1fa3f8cf"],    
+    "images":[{"url":"https://res.cloudinary.com/dizyugwtg/image/upload/v1729362319/e-com/products/6713f98e8651cbe66cc6dda0.png"}]    
 }
 
 ### get Products
