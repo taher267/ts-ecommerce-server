@@ -20,4 +20,3 @@ const tagAddSchema = zod_1.default.object({
 exports.default = {
     tagAddSchema,
 };
-//# sourceMappingURL=tag.schemas.js.map

@@ -17,4 +17,3 @@ const getProductColor = (query = {}, select = "") => ProductColor.findOne(query)
 exports.getProductColor = getProductColor;
 const addProductColor = (query) => new ProductColor(query).save().then((data) => data.toObject());
 exports.addProductColor = addProductColor;
-//# sourceMappingURL=index.js.map

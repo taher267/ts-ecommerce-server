@@ -20,4 +20,3 @@ router.post("/login", controllers_1.login);
 router.post("/register", controllers_1.register);
 // router.get("/github/callback", controllers.githubSession2);
 exports.default = router;
-//# sourceMappingURL=auth.routes.js.map

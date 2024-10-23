@@ -28,4 +28,3 @@ const register = async (req, res, next) => {
     }
 };
 exports.default = register;
-//# sourceMappingURL=register.js.map

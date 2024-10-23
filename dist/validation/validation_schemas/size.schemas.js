@@ -20,4 +20,3 @@ const sizeAddSchema = zod_1.default.object({
 exports.default = {
     sizeAddSchema,
 };
-//# sourceMappingURL=size.schemas.js.map

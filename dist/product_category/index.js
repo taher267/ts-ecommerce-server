@@ -19,4 +19,3 @@ const getProductCategory = (query = {}, select = "") => ProductCategory.findOne(
 exports.getProductCategory = getProductCategory;
 const addProductCategory = (query) => new ProductCategory(query).save().then((data) => data.toObject());
 exports.addProductCategory = addProductCategory;
-//# sourceMappingURL=index.js.map

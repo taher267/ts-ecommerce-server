@@ -21,4 +21,3 @@ router.get("/", controllers_1.getAllItems);
  */
 router.post("/", (0, zod_schema_validator_1.default)(color_schemas_1.default.colorAddSchema), controllers_1.addItem);
 exports.default = router;
-//# sourceMappingURL=color.routes.js.map

@@ -16,4 +16,3 @@ const getCategory = (query = {}) => Category.findOne(query);
 exports.getCategory = getCategory;
 const addCategory = (query) => new Category(query).save().then((data) => data.toObject());
 exports.addCategory = addCategory;
-//# sourceMappingURL=index.js.map

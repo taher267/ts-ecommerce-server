@@ -11,4 +11,3 @@ exports.default = async (req, res, next) => {
         next(e);
     }
 };
-//# sourceMappingURL=removeImage.js.map

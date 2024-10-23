@@ -15,7 +15,7 @@
     "resolveJsonModule": true,
     "allowSyntheticDefaultImports": true,
     "typeRoots": ["./src/types", "./node_modules/@types"],
-    "sourceMap": true,
+    "sourceMap": false,
     "types": ["node", "express"],
     "noImplicitAny": false,
     "baseUrl": "./src",

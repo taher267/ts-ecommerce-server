@@ -18,4 +18,3 @@ exports.default = async (fileBuffer, options = {}) => {
             .end(fileBuffer); // Send buffer to the stream
     });
 };
-//# sourceMappingURL=cloudinary-upload.js.map

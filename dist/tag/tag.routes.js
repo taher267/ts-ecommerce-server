@@ -21,4 +21,3 @@ router.get("/", controllers_1.getAllItems);
  */
 router.post("/", (0, zod_schema_validator_1.default)(tag_schemas_1.default.tagAddSchema), controllers_1.addItem);
 exports.default = router;
-//# sourceMappingURL=tag.routes.js.map

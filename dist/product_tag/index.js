@@ -18,4 +18,3 @@ const getProductTag = (query = {}, select = "") => ProductTag.findOne(query).sel
 exports.getProductTag = getProductTag;
 const addProductTag = (query) => new ProductTag(query).save().then((data) => data.toObject());
 exports.addProductTag = addProductTag;
-//# sourceMappingURL=index.js.map

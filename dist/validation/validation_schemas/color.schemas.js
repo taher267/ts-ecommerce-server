@@ -35,4 +35,3 @@ const colorAddSchema = zod_1.default.object({
 exports.default = {
     colorAddSchema,
 };
-//# sourceMappingURL=color.schemas.js.map

@@ -8,4 +8,3 @@ cloudinaryInit.config({
     api_secret: CLOUDINARY_API_SECRET,
 });
 exports.default = cloudinaryInit;
-//# sourceMappingURL=init.js.map

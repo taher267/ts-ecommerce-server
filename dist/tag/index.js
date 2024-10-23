@@ -22,4 +22,3 @@ const getTag = (query = {}, select = "") => Tag.findOne(query).select(select).ex
 exports.getTag = getTag;
 const addTag = (query) => new Tag(query).save().then((data) => data.toObject());
 exports.addTag = addTag;
-//# sourceMappingURL=index.js.map

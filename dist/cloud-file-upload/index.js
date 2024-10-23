@@ -8,4 +8,3 @@ var cloudinary_upload_1 = require("../cloud-file-upload/cloudinary-upload/cloudi
 Object.defineProperty(exports, "fileupload", { enumerable: true, get: function () { return __importDefault(cloudinary_upload_1).default; } });
 var cloudinary_delete_1 = require("../cloud-file-upload/cloudinary-upload/cloudinary-delete");
 Object.defineProperty(exports, "fileDelete", { enumerable: true, get: function () { return __importDefault(cloudinary_delete_1).default; } });
-//# sourceMappingURL=index.js.map

@@ -21,4 +21,3 @@ router.get("/", controllers_1.getAllItems);
  */
 router.post("/", (0, zod_schema_validator_1.default)(category_schemas_1.default.categoryAddSchema), controllers_1.addItem);
 exports.default = router;
-//# sourceMappingURL=category.routes.js.map

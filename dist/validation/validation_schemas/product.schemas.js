@@ -103,4 +103,3 @@ const productAddSchema = zod_1.default.object({
 exports.default = {
     productAddSchema,
 };
-//# sourceMappingURL=product.schemas.js.map

@@ -20,4 +20,3 @@ const categoryAddSchema = zod_1.default.object({
 exports.default = {
     categoryAddSchema,
 };
-//# sourceMappingURL=category.schemas.js.map

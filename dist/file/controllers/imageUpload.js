@@ -17,4 +17,3 @@ exports.default = async (req, res, next) => {
         next(e);
     }
 };
-//# sourceMappingURL=imageUpload.js.map

@@ -12,4 +12,3 @@ var getItem_1 = require("../../product/controllers/getItem");
 Object.defineProperty(exports, "getItem", { enumerable: true, get: function () { return __importDefault(getItem_1).default; } });
 var removeItem_1 = require("../../product/controllers/removeItem");
 Object.defineProperty(exports, "removeItem", { enumerable: true, get: function () { return __importDefault(removeItem_1).default; } });
-//# sourceMappingURL=index.js.map

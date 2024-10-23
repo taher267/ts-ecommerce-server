@@ -19,4 +19,3 @@ router.get("/", controllers_1.getAllItems);
  */
 router.get("/:id", controllers_1.getItem);
 exports.default = router;
-//# sourceMappingURL=user.routes.js.map

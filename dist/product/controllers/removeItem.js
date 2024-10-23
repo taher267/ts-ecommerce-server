@@ -19,4 +19,3 @@ const removeItem = async (req, res, next) => {
     }
 };
 exports.default = removeItem;
-//# sourceMappingURL=removeItem.js.map

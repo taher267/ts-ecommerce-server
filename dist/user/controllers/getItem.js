@@ -22,4 +22,3 @@ const getItem = async (req, res, next) => {
     }
 };
 exports.default = getItem;
-//# sourceMappingURL=getItem.js.map

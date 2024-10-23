@@ -32,4 +32,3 @@ exports.default = () => {
     // router.use("/product-tags", productTagRoute);
     return router;
 };
-//# sourceMappingURL=routes.js.map

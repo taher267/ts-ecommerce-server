@@ -19,4 +19,3 @@ router.get("/", controllers_1.getAllItems);
  */
 router.post("/", controllers_1.addItem);
 exports.default = router;
-//# sourceMappingURL=product_size.routes.js.map

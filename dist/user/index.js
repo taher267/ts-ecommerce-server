@@ -29,4 +29,3 @@ exports.deleteUserById = deleteUserById;
 const updaeUserById = (id, values) => exports.User.findByIdAndUpdate(id, values);
 exports.updaeUserById = updaeUserById;
 //   https://www.youtube.com/watch?v=b8ZUb_Okxro&t=2s
-//# sourceMappingURL=index.js.map

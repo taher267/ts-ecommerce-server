@@ -18,4 +18,3 @@ const getProductSize = (query = {}, select = "") => ProductSize.findOne(query).s
 exports.getProductSize = getProductSize;
 const addProductSize = (query) => new ProductSize(query).save().then((data) => data.toObject());
 exports.addProductSize = addProductSize;
-//# sourceMappingURL=index.js.map

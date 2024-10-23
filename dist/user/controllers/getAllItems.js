@@ -11,4 +11,3 @@ const getAllItems = async (_req, res, next) => {
     }
 };
 exports.default = getAllItems;
-//# sourceMappingURL=getAllItems.js.map

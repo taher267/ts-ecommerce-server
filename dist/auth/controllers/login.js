@@ -32,4 +32,3 @@ const login = async (req, res, next) => {
     }
 };
 exports.default = login;
-//# sourceMappingURL=login.js.map

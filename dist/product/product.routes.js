@@ -27,4 +27,3 @@ router.get("/", controllers_1.getAllItems);
  */
 router.route("/:id").get(controllers_1.getItem).delete(controllers_1.removeItem);
 exports.default = router;
-//# sourceMappingURL=product.routes.js.map

@@ -10,4 +10,3 @@ var getAllItems_1 = require("../../tag/controllers/getAllItems");
 Object.defineProperty(exports, "getAllItems", { enumerable: true, get: function () { return __importDefault(getAllItems_1).default; } });
 var getItem_1 = require("../../tag/controllers/getItem");
 Object.defineProperty(exports, "getItem", { enumerable: true, get: function () { return __importDefault(getItem_1).default; } });
-//# sourceMappingURL=index.js.map

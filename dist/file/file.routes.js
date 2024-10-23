@@ -9,4 +9,3 @@ const controllers_1 = require("../file/controllers");
 router.post("/", // validations.isValidUploadFile,
 controllers_1.imageUpload);
 exports.default = router;
-//# sourceMappingURL=file.routes.js.map

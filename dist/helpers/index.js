@@ -12,4 +12,3 @@ const authentication = (salt, password) => {
     return crypto_1.default.createHmac("sha256", [salt, password].join("/")).update(SECRET).digest('hex');
 };
 exports.authentication = authentication;
-//# sourceMappingURL=index.js.map

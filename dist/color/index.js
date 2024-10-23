@@ -23,4 +23,3 @@ const getColor = (query = {}) => Color.findOne(query);
 exports.getColor = getColor;
 const addColor = (query) => new Color(query).save().then((data) => data.toObject());
 exports.addColor = addColor;
-//# sourceMappingURL=index.js.map

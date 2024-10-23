@@ -73,4 +73,3 @@ mongoose_1.default.connection.on("error", (err) => {
 mongoose_1.default.connection.on("connected", () => {
     server.listen(PORT, () => console.log(`Server on Running http://localhost:${PORT}`));
 });
-//# sourceMappingURL=index.js.map

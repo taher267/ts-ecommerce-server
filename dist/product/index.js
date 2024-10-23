@@ -59,4 +59,3 @@ const deleteProduct = (query = {}) => Product.deleteOne(query).exec();
 exports.deleteProduct = deleteProduct;
 const addProduct = (query) => new Product(query).save().then((data) => data.toObject());
 exports.addProduct = addProduct;
-//# sourceMappingURL=index.js.map

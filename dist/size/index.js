@@ -22,4 +22,3 @@ const getSize = (query = {}, select = "") => Size.findOne(query).select(select).
 exports.getSize = getSize;
 const addSize = (query) => new Size(query).save().then((data) => data.toObject());
 exports.addSize = addSize;
-//# sourceMappingURL=index.js.map

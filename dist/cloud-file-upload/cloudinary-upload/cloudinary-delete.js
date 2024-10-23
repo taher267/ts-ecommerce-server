@@ -17,4 +17,3 @@ exports.default = async (publicId) => {
         });
     });
 };
-//# sourceMappingURL=cloudinary-delete.js.map
