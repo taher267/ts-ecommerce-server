@@ -13,7 +13,7 @@
   },
   "author": "ABU TAHER <abutaher267@gmail.com>",
   "license": "MIT",
-  "main": "server.js",
+  "main": "./dist/src/index.js",
   "publishConfig": {
     "registry": "https://registry.yarnpkg.com"
   },
@@ -21,6 +21,7 @@
     "dev": "nodemon",
     "dev1": "ts-node-dev -r tsconfig-paths/register ./src/index.ts",
     "start": "node ./dist/src/index.js",
+    "start1": "node ./dist/index.js",
     "start2": "node dist/index.js",
     "dist:dev": "nodemon dist/index.js",
     "build": "tsc && tsc-alias"
