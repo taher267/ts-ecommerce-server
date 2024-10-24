@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 
 const { DB_CONNECTION_URL, DB_USERNAME, DB_PASSWORD, DB_NAME } = process.env;
+console.log({ DB_CONNECTION_URL, DB_USERNAME, DB_PASSWORD, DB_NAME });
 let connectionURL = DB_CONNECTION_URL as string;
 connectionURL = connectionURL.replace("<username>", DB_USERNAME as string);
 connectionURL = connectionURL.replace("<password>", DB_PASSWORD as string);
