@@ -1,0 +1,2824 @@
+openapi: 3.0.0
+info:
+  title: Attendance Sheet API
+  version: 1.0.0
+  description: The Attendance Sheet is a structured document designed to systematically record the presence, absence, or tardiness of individuals within a specified group or event. Typically used in educational institutions, workplaces, and various organizational settings, the attendance sheet serves as a vital tool for tracking attendance patterns, facilitating payroll processes, and assessing overall participation
+  contact:
+    name: ABU TAHER
+    url: https://github.com/taher267
+    email: abutaher267@gmail.com
+servers:
+  - description: Dev
+    url: "http://localhost:4003/api/v1"
+  - description: Live
+    url: "https://ecom-server-rw2s.onrender.com/api/v1"
+  - description: Live vercel
+    url: "https://attendence-sheet-rho.vercel.app/api/v1"
+  - description: Ngrok Dynamic
+    url: "https://a3e2-103-96-104-72.ngrok-free.app/api/v1"
+
+tags:
+  - name: Auth
+    description: Authentication Endpoints (public)
+  - name: User
+    description: User Endpoints (private)
+  - name: Establishment
+    description: Establishment Endpoints (Private)
+  - name: Department
+    description: Department Endpoints (Private)
+  - name: ReportForm
+    description: ReportForm Endpoints (private)
+  - name: Holiday
+    description: Holiday Endpoints (Private)
+  - name: ReportPermission
+    description: ReportPermission Endpoints (Private)
+  - name: WorkReport
+    description: WorkReport Endpoints (Private)
+paths:
+  "/auth/register":
+    post:
+      operationId: register
+      description: "Create a new account"
+      tags:
+        - "Auth"
+      requestBody:
+        content:
+          "application/json":
+            schema:
+              properties:
+              $ref: "#/components/schemas/Auth"
+              required:
+                - "name"
+                - "email"
+                - "password"
+      responses:
+        "201":
+          description: Signup successful
+          content:
+            "application/json":
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                    example: 201
+                  message:
+                    type: string
+                    example: Signup Successful
+                  data:
+                    type: object
+                    properties:
+                      user:
+                        type: object
+                        properties:
+                        $ref: "#/components/schemas/User"
+                      access_token:
+                        type: string
+                        example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+
+  "/auth/login-or-register-with-google":
+    post:
+      operationId: register
+      description: "Register or login of user for both"
+      tags:
+        - "Auth"
+      requestBody:
+        content:
+          "application/json":
+            schema:
+              type: object
+              properties:
+                id_token:
+                  type: string
+                  example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9
+                access_token:
+                  type: string
+                  example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9
+
+              required:
+                - "id_token"
+      responses:
+        "201":
+          description: Signup successful
+          content:
+            "application/json":
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                    example: 201
+                  message:
+                    type: string
+                    example: Successfully register with google
+                  data:
+                    type: object
+                    properties:
+                      user:
+                        type: object
+                        properties:
+                        $ref: "#/components/schemas/User"
+                      access_token:
+                        type: string
+                        example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+        "200":
+          description: Login successful
+          content:
+            "application/json":
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                    example: 201
+                  message:
+                    type: string
+                    example: Successfully Login with google
+                  data:
+                    type: object
+                    properties:
+                      user:
+                        type: object
+                        properties:
+                        $ref: "#/components/schemas/User"
+                      access_token:
+                        type: string
+                        example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+
+  "/auth/register-with-google":
+    post:
+      operationId: register
+      description: "Register with google"
+      tags:
+        - "Auth"
+      requestBody:
+        content:
+          "application/json":
+            schema:
+              type: object
+              properties:
+                id_token:
+                  type: string
+                  example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9
+                access_token:
+                  type: string
+                  example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9
+
+              required:
+                - "id_token"
+      responses:
+        "201":
+          description: Signup successful
+          content:
+            "application/json":
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                    example: 201
+                  message:
+                    type: string
+                    example: Successfully register with google
+                  data:
+                    type: object
+                    properties:
+                      user:
+                        type: object
+                        properties:
+                        $ref: "#/components/schemas/User"
+                      access_token:
+                        type: string
+                        example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+
+  "/auth/login-with-google":
+    post:
+      operationId: register
+      description: "Login of user with google"
+      tags:
+        - "Auth"
+      requestBody:
+        content:
+          "application/json":
+            schema:
+              type: object
+              properties:
+                id_token:
+                  type: string
+                  example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9
+                access_token:
+                  type: string
+                  example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9
+
+              required:
+                - "id_token"
+      responses:
+        "200":
+          description: Login successful
+          content:
+            "application/json":
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                    example: 201
+                  message:
+                    type: string
+                    example: Successfully Login with google
+                  data:
+                    type: object
+                    properties:
+                      user:
+                        type: object
+                        properties:
+                        $ref: "#/components/schemas/User"
+                      access_token:
+                        type: string
+                        example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+
+  "/auth/login":
+    post:
+      operationId: login
+      description: "login an account"
+      tags:
+        - "Auth"
+      requestBody:
+        content:
+          "application/json":
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  example: example@domain.com
+                password:
+                  type: string
+                  format: password
+                  example: password13r
+              required:
+                - "username"
+                - "password"
+      responses:
+        "200":
+          description: user login
+          content:
+            "application/json":
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                    example: 201
+                  message:
+                    type: string
+                    example: Login Successful
+                  data:
+                    type: object
+                    properties:
+                      access_token:
+                        type: string
+                        example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+
+  "/auth/register-with-link":
+    post:
+      operationId: registerWithLink
+      description: "User register with email link sending!"
+      tags:
+        - "Auth"
+      requestBody:
+        content:
+          "application/json":
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: Abu Taher
+                email:
+                  type: string
+                  format: email
+                  example: example@domain.com
+
+              required:
+                - "name"
+                - "email"
+      responses:
+        "201":
+          description: Signup successful
+          content:
+            "application/json":
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                    example: 201
+                  message:
+                    type: string
+                    example: Register link has been sent on your provided email!
+
+  "/auth/register-link-varification":
+    post:
+      operationId: accountVarification
+      description: "Account varification by receiving mail"
+      tags:
+        - "Auth"
+      requestBody:
+        content:
+          "application/json":
+            schema:
+              allOf:
+                - $ref: "#/components/schemas/Auth"
+                - $ref: "#/components/schemas/Hash"
+
+              required:
+                - "name"
+                - "email"
+                - "password"
+                - "hashToken"
+      responses:
+        "201":
+          description: Signup successful
+          content:
+            "application/json":
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                    example: 201
+                  message:
+                    type: string
+                    example: Signup Successful
+                  data:
+                    type: object
+                    properties:
+                      access_token:
+                        type: string
+                        example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+
+  "/auth/forget-password":
+    post:
+      operationId: forgetPassword
+      description: "Forget user password"
+      tags:
+        - "Auth"
+      requestBody:
+        content:
+          "application/json":
+            schema:
+              properties:
+                email:
+                  type: string
+                  format: email
+                  example: example@domain.com
+
+              required:
+                - "email"
+      responses:
+        "200":
+          description: Forget password response!
+          content:
+            "application/json":
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                    example: 200
+                  message:
+                    type: string
+                    example: Successfully send email for Recovery account!
+
+  "/auth/reset-password":
+    post:
+      operationId: ResetPassword
+      description: "Reset user password"
+      tags:
+        - "Auth"
+      requestBody:
+        content:
+          "application/json":
+            schema:
+              allOf:
+                - $ref: "#/components/schemas/Hash"
+                - $ref: "#/components/schemas/ChangeCredential"
+              required: [hashToken, newPassword, confirmPassword]
+
+      responses:
+        "200":
+          description: Reset password response!
+          content:
+            "application/json":
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                    example: 200
+                  message:
+                    type: string
+                    example: Password has been reset!
+
+  "/auth/refresh":
+    get:
+      operationId: newAccessToken
+      description: "Generate access token form refress token!"
+      tags:
+        - "Auth"
+      responses:
+        "200":
+          description: Getting a new access token!
+          content:
+            "application/json":
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                    example: 200
+                  message:
+                    type: string
+                    example: Password has been reset!
+                  data:
+                    type: object
+                    properties:
+                      accessToken:
+                        type: string
+                        example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbiI6IjhkZDQ1MGFlZjEwMjY4MDkxMTM5MjVmNzJiMWJhNGI1YjI5ODFiZTc2NjBmOTdiOWQ5NTJmZWQzNWM1NzQwNmIiLCJpYXQiOjE3MDE4ODQ4MDIsImV4cCI6MTcwMTg4NTcwMn0.G1kD_YfiIaZO7CjV7uRoFUNsAYEhlLnFni2aNB3mm_I
+
+  "/auth/logout":
+    delete:
+      operationId: Logout
+      description: "Logout the user"
+      tags:
+        - "Auth"
+      responses:
+        "202":
+          description: Clearing access token and refresh token for logout!
+          content:
+            "application/json":
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                    example: 202
+                  message:
+                    type: string
+                    example: Password has been reset!
+
+  "/users":
+    post:
+      operationId: createUser
+      security:
+        - bearerAuth: []
+      description: "Create a new User"
+      tags:
+        - "User"
+      requestBody:
+        content:
+          "application/json":
+            schema:
+              $ref: "#components/schemas/User"
+      responses:
+        "201":
+          description: Create user by adimin
+          content:
+            "application/json":
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                    example: 201
+                  message:
+                    type: string
+                    example: Added User, Successful
+                  data:
+                    type: object
+                    properties:
+                    $ref: "#components/schemas/UserResponse"
+        "400":
+          $ref: "#/components/responses/400"
+        "500":
+          "$ref": "#/components/responses/500"
+    get:
+      operationId: AllProducts
+      security:
+        - bearerAuth: []
+      description: "Retrive all products"
+      tags:
+        - "User"
+      parameters:
+        - $ref: "#/components/parameters/pageParam"
+        - $ref: "#/components/parameters/limitParam"
+        - $ref: "#/components/parameters/sortTypeParam"
+        - $ref: "#/components/parameters/sortByParam"
+        - $ref: "#/components/parameters/searchParam"
+        - $ref: "#/components/parameters/searchByParam"
+        - $ref: "#/components/parameters/searchTypeParam"
+
+      responses:
+        "200":
+          description: Retrive all datas
+          content:
+            "application/json":
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                    example: 200
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                      $ref: "#components/schemas/UserResponse"
+                  totalItems:
+                    type: integer
+                    format: int32
+                    example: 2
+                  pagination:
+                    $ref: "#/components/schemas/Pagination"
+                  links:
+                    type: object
+                    properties:
+                      self:
+                        type: string
+                        format: url
+                        example: "/api/v1/users?page=2&limit=1&sort_type=dsc&sort_by=createdAt&search=title"
+                      prev:
+                        type: string
+                        format: url
+                        example: "/api/v1/users?page=21&limit=1&sort_type=dsc&sort_by=createdAt&search=title"
+                      next:
+                        type: string
+                        format: url
+                        example: "/api/v1/users?page=1&limit=1&sort_type=dsc&sort_by=createdAt&search=title"
+
+        "400":
+          $ref: "#/components/responses/400"
+        "500":
+          "$ref": "#/components/responses/500"
+
+  "/users/{id}":
+    get:
+      operationId: getUser
+      security:
+        - bearerAuth: []
+      description: Retrieve single user
+      tags:
+        - "User"
+      parameters:
+        - $ref: "#/components/parameters/idPathParam"
+      responses:
+        "200":
+          description: A single item details
+          content:
+            "application/json":
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                    example: 200
+                  message:
+                    type: string
+                    example: Retrieved a data, Successfully!
+                  data:
+                    type: object
+                    allOf:
+                      - $ref: "#components/schemas/UserCommon"
+                      - $ref: "#components/schemas/Timestamp"
+        "400":
+          $ref: "#/components/responses/400"
+        "404":
+          $ref: "#/components/responses/404"
+        "500":
+          "$ref": "#/components/responses/500"
+    put:
+      operationId: updateOrCreateUser
+      security:
+        - bearerAuth: []
+      description: If exist user than update other wise create a user. only update those specified field(name, phone_number, username)
+      tags:
+        - "User"
+      parameters:
+        - $ref: "#/components/parameters/idPathParam"
+      requestBody:
+        content:
+          "application/json":
+            schema:
+              $ref: "#components/schemas/User"
+      responses:
+        "200":
+          description: Update user info!
+          content:
+            "application/json":
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                    example: 200
+                  message:
+                    type: string
+                    example: Retrieved a data, Successfully!
+                  data:
+                    type: object
+                    allOf:
+                      - $ref: "#components/schemas/UserCommon"
+                      - $ref: "#components/schemas/Timestamp"
+        "400":
+          $ref: "#/components/responses/400"
+        "500":
+          "$ref": "#/components/responses/500"
+    patch:
+      operationId: updateUser
+      security:
+        - bearerAuth: []
+      description: only update Status, Roles
+      tags:
+        - "User"
+      parameters:
+        - $ref: "#/components/parameters/idPathParam"
+      requestBody:
+        content:
+          "application/json":
+            schema:
+              # oneOf:
+              #     - required:
+              #         - roles
+              #       properties:
+              #         roles:
+              #           type: array
+              #           items:
+              #             type: string
+              #     - required:
+              #         - status
+              #       properties:
+              #         status:
+              #           type: string
+              #           enum: ["active", "inactive", "pending"]
+              properties:
+                roles:
+                  type: array
+                  items:
+                    type: string
+                    enum: [super_admin, admin, user, observer]
+                status:
+                  type: string
+                  enum: ["active", "inactive", "pending", "close"]
+      responses:
+        "200":
+          description: Update user info!
+          content:
+            "application/json":
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                    example: 200
+                  message:
+                    type: string
+                    example: Retrieved a data, Successfully!
+                  data:
+                    type: object
+                    allOf:
+                      - $ref: "#components/schemas/UserCommon"
+                      - $ref: "#components/schemas/Timestamp"
+        "400":
+          $ref: "#/components/responses/400"
+        "500":
+          "$ref": "#/components/responses/500"
+
+    delete:
+      operationId: deleteUser
+      security:
+        - bearerAuth: []
+      description: Delete single data
+      tags:
+        - "User"
+      parameters:
+        - $ref: "#/components/parameters/idPathParam"
+      responses:
+        "200":
+          description: Delete single item details
+          content:
+            "application/json":
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                    example: 202
+                  message:
+                    type: string
+                    example: Data has been deleted, Successfully!
+        "400":
+          $ref: "#/components/responses/400"
+        "500":
+          "$ref": "#/components/responses/500"
+
+  "/users/{id}/change-profile-pic":
+    patch:
+      operationId: changeProfilePic
+      security:
+        - bearerAuth: []
+      description: Retrieve single user
+      tags:
+        - "User"
+      parameters:
+        - $ref: "#/components/parameters/idPathParam"
+        # summary: Upload a file
+      requestBody:
+        content:
+          multipart/form-data:
+            # 'image/png':
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+                  # pattern: '\.(jpg|jpeg|png|gif)$'
+              required:
+                - "file"
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+
+  "/users/set-password":
+    post:
+      security:
+        - bearerAuth: []
+      operationId: setPassword
+      description: "set user password"
+      tags:
+        - "User"
+      requestBody:
+        content:
+          "application/json":
+            schema:
+              $ref: "#/components/schemas/ChangeCredential"
+              required: [newPassword, confirmPassword]
+
+      responses:
+        "200":
+          description: Set password response!
+          content:
+            "application/json":
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                    example: 200
+                  message:
+                    type: string
+                    example: Password has been reset!
+
+  "/users/update-password":
+    post:
+      security:
+        - bearerAuth: []
+      operationId: updatePassword
+      description: "Update user password"
+      tags:
+        - "User"
+      requestBody:
+        content:
+          "application/json":
+            schema:
+              allOf:
+                - $ref: "#/components/schemas/ChangeCredential"
+              properties:
+                oldPassword:
+                  type: string
+                  example: example123
+              required: [oldPassword, newPassword, confirmPassword]
+
+      responses:
+        "200":
+          description: Set password response!
+          content:
+            "application/json":
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                    example: 200
+                  message:
+                    type: string
+                    example: Password has been updated!
+
+  "/establishments":
+    post:
+      operationId: createEstablishment
+      security:
+        - bearerAuth: []
+      description: "Create a new Establishment"
+      tags:
+        - "Establishment"
+      requestBody:
+        content:
+          "application/json":
+            schema:
+              type: object
+              properties:
+                name:
+                  description: Establishment name must be unique!
+                  type: string
+                  example: Hadia Shop
+              required:
+                - "name"
+
+      responses:
+        "201":
+          description: Signup Successful
+          content:
+            "application/json":
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                    example: 201
+                  message:
+                    type: string
+                    example: Added establishment, Successful
+                  data:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                        example: Hadia Shop
+        "400":
+          $ref: "#/components/responses/400"
+        "500":
+          "$ref": "#/components/responses/500"
+    get:
+      operationId: AllEstablishmentS
+      description: "Retrive all Establishments name"
+      tags:
+        - "Establishment"
+      parameters:
+        - $ref: "#/components/parameters/pageParam"
+        - $ref: "#/components/parameters/limitParam"
+        - $ref: "#/components/parameters/sortTypeParam"
+        # - $ref: "#/components/parameters/sortByParam"
+        - $ref: "#/components/parameters/searchParam"
+
+      responses:
+        "200":
+          description: Fetching all Establishments
+          content:
+            "application/json":
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                    example: 202
+                  message:
+                    type: string
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                          example: Hadia Shop
+        "500":
+          "$ref": "#/components/responses/500"
+
+  "/establishments/{id}":
+    get:
+      operationId: Establishments
+      description: "Retrive Establishment name"
+      tags:
+        - "Establishment"
+      parameters:
+        - $ref: "#/components/parameters/idPathParam"
+
+      responses:
+        "200":
+          description: Fetching a Establishment
+          content:
+            "application/json":
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                    example: 200
+                  message:
+                    type: string
+                    example: Added Establishment, Successful
+                  data:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                        example: Hadia Shop
+        "401":
+          "$ref": "#/components/responses/401"
+        "403":
+          "$ref": "#/components/responses/403"
+        "404":
+          "$ref": "#/components/responses/404"
+        "500":
+          "$ref": "#/components/responses/500"
+    patch:
+      operationId: updateEstablishment
+      security:
+        - bearerAuth: []
+      description: "Update Establishment"
+      tags:
+        - "Establishment"
+      parameters:
+        - $ref: "#/components/parameters/idPathParam"
+      requestBody:
+        content:
+          "application/json":
+            schema:
+              type: object
+              properties:
+                name:
+                  description: Establishment name must be unique!
+                  type: string
+                  example: Hadia Shop
+
+      responses:
+        "200":
+          description: Establishment updated successful
+          content:
+            "application/json":
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                    example: 201
+                  message:
+                    type: string
+                    example: Establishment has been updated!
+                  data:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                        example: Hadia Shop
+        "400":
+          $ref: "#/components/responses/400"
+        "500":
+          "$ref": "#/components/responses/500"
+    delete:
+      operationId: DeleteEstablishment
+      security:
+        - bearerAuth: []
+      description: "Delete Establishment"
+      tags:
+        - "Establishment"
+      parameters:
+        - $ref: "#/components/parameters/idPathParam"
+
+      responses:
+        "202":
+          description: Establishment Deleting
+          content:
+            "application/json":
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                    example: 202
+                  message:
+                    type: string
+                    example: Establishment has been Deleted!
+
+        "400":
+          $ref: "#/components/responses/400"
+        "500":
+          "$ref": "#/components/responses/500"
+
+  "/departments":
+    post:
+      operationId: createDepartment
+      security:
+        - bearerAuth: []
+      description: "Create a new Department"
+      tags:
+        - "Department"
+      requestBody:
+        content:
+          "application/json":
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: Sales
+                establishment_id:
+                  type: string
+                  example: 6568c4210a26245b8cb27313
+              required: [name]
+
+      responses:
+        "201":
+          description: Signup Successful
+          content:
+            "application/json":
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                    example: 201
+                  message:
+                    type: string
+                    example: Added department, Successfully
+                  data:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                        example: Hadia Shop
+                      establishment_id:
+                        type: string
+                        example: 6568c4210a26245b8cb27313
+        "400":
+          $ref: "#/components/responses/400"
+        "500":
+          "$ref": "#/components/responses/500"
+    get:
+      operationId: AllDepartments
+      description: "Retrive all Departments"
+      tags:
+        - "Department"
+      parameters:
+        - $ref: "#/components/parameters/pageParam"
+        - $ref: "#/components/parameters/limitParam"
+        - $ref: "#/components/parameters/sortTypeParam"
+        - $ref: "#/components/parameters/sortByParam"
+        - $ref: "#/components/parameters/searchParam"
+
+      responses:
+        "200":
+          description: Fetching all Department
+          content:
+            "application/json":
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                    example: 202
+                  message:
+                    type: string
+                  data:
+                    type: array
+                    items:
+                      type: object
+                    properties:
+                      name:
+                        type: string
+                        example: Hadia Shop
+                  establishment_id:
+                    type: string
+                    example: 6568c4210a26245b8cb27313
+        "500":
+          "$ref": "#/components/responses/500"
+
+  "/departments/{id}":
+    get:
+      operationId: Department
+      description: "Retrive Department"
+      tags:
+        - "Department"
+      parameters:
+        - $ref: "#/components/parameters/idPathParam"
+
+      responses:
+        "200":
+          description: Fetching a Department
+          content:
+            "application/json":
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                    example: 200
+                  message:
+                    type: string
+                    example: Added department, Successfully
+                  data:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                        example: Hadia Shop
+                      establishment_id:
+                        type: string
+                        example: 6568c4210a26245b8cb27313
+        "401":
+          "$ref": "#/components/responses/401"
+        "403":
+          "$ref": "#/components/responses/403"
+        "404":
+          "$ref": "#/components/responses/404"
+        "500":
+          "$ref": "#/components/responses/500"
+    patch:
+      operationId: updateEstablishment
+      security:
+        - bearerAuth: []
+      description: "Update Establishment"
+      tags:
+        - "Establishment"
+      parameters:
+        - $ref: "#/components/parameters/idPathParam"
+      requestBody:
+        content:
+          "application/json":
+            schema:
+              type: object
+              properties:
+                name:
+                  description: Establishment name must be unique!
+                  type: string
+                  example: Hadia Shop
+
+      responses:
+        "200":
+          description: Update Department
+          content:
+            "application/json":
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                    example: 200
+                  message:
+                    type: string
+                    example: Update department, Successfully
+                  data:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                        example: Hadia Shop
+                      establishment_id:
+                        type: string
+                        example: 6568c4210a26245b8cb27313
+    delete:
+      operationId: DeleteDepartment
+      security:
+        - bearerAuth: []
+      description: "Delete Department"
+      tags:
+        - "Department"
+      parameters:
+        - $ref: "#/components/parameters/idPathParam"
+
+      responses:
+        "202":
+          description: Department Deleting
+          content:
+            "application/json":
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                    example: 202
+                  message:
+                    type: string
+                    example: Department has been deleted!
+
+        "400":
+          $ref: "#/components/responses/400"
+        "500":
+          "$ref": "#/components/responses/500"
+
+  "/report-forms":
+    post:
+      operationId: createReportForm
+      security:
+        - bearerAuth: []
+      description: "Create a new Report Form"
+      tags:
+        - "ReportForm"
+      requestBody:
+        content:
+          "application/json":
+            schema:
+              type: object
+              $ref: "#/components/schemas/ReportForm"
+              required: [name, fields]
+      responses:
+        "201":
+          description: Response to create a new Report Form
+          content:
+            "application/json":
+              schema:
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                    example: 201
+                  message:
+                    type: string
+                    example: Added Report Form, Successfully
+                  data:
+                    type: object
+                    allOf:
+                      - $ref: "#components/schemas/ID"
+                      - $ref: "#/components/schemas/ReportForm"
+                      - $ref: "#/components/schemas/Timestamp"
+
+        "400":
+          $ref: "#/components/responses/400"
+        "500":
+          "$ref": "#/components/responses/500"
+    get:
+      operationId: AllReportForms
+      description: "Retrive all Report Forms"
+      tags:
+        - "ReportForm"
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/pageParam"
+        - $ref: "#/components/parameters/limitParam"
+        - $ref: "#/components/parameters/sortTypeParam"
+        - $ref: "#/components/parameters/sortByParam"
+        - $ref: "#/components/parameters/searchParam"
+
+      responses:
+        "200":
+          description: Fetching all Report Forms
+          content:
+            "application/json":
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                    example: 202
+                  message:
+                    type: string
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      allOf:
+                        - $ref: "#components/schemas/ID"
+                        - $ref: "#/components/schemas/ReportForm"
+                        - $ref: "#/components/schemas/Timestamp"
+        "500":
+          "$ref": "#/components/responses/500"
+  "/report-forms/self":
+    get:
+      operationId: SelfAllReportForms
+      description: "Retrive all Report Forms"
+      tags:
+        - "ReportForm"
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/pageParam"
+        - $ref: "#/components/parameters/limitParam"
+        - $ref: "#/components/parameters/sortTypeParam"
+        - $ref: "#/components/parameters/sortByParam"
+        - $ref: "#/components/parameters/searchParam"
+
+      responses:
+        "200":
+          description: Fetching all Report Forms
+          content:
+            "application/json":
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                    example: 202
+                  message:
+                    type: string
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      allOf:
+                        - $ref: "#components/schemas/ID"
+                        - $ref: "#/components/schemas/ReportForm"
+                        - $ref: "#/components/schemas/Timestamp"
+        "500":
+          "$ref": "#/components/responses/500"
+
+  "/report-forms/{id}":
+    get:
+      security:
+        - bearerAuth: []
+
+      operationId: getForm
+      description: "Retrive single ReportForm"
+      tags:
+        - "ReportForm"
+      parameters:
+        - $ref: "#/components/parameters/idPathParam"
+
+      responses:
+        "200":
+          description: Fetching a Report Form data
+          content:
+            "application/json":
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                    example: 200
+                  message:
+                    type: string
+                    example: Added Report Form, Successfully
+                  data:
+                    type: object
+                    allOf:
+                      - $ref: "#components/schemas/ID"
+                      - $ref: "#/components/schemas/ReportForm"
+                      - $ref: "#/components/schemas/Timestamp"
+        "401":
+          "$ref": "#/components/responses/401"
+        "403":
+          "$ref": "#/components/responses/403"
+        "404":
+          "$ref": "#/components/responses/404"
+        "500":
+          "$ref": "#/components/responses/500"
+    put:
+      operationId: updateReportForm
+      security:
+        - bearerAuth: []
+      description: "Update Report Form"
+      tags:
+        - "ReportForm"
+      parameters:
+        - $ref: "#/components/parameters/idPathParam"
+      requestBody:
+        content:
+          "application/json":
+            schema:
+              type: object
+              $ref: "#/components/schemas/ReportForm"
+
+      responses:
+        "200":
+          description: Update Form
+          content:
+            "application/json":
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                    example: 200
+                  message:
+                    type: string
+                    example: Update Report Form, Successfully
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      allOf:
+                        - $ref: "#components/schemas/ID"
+                        - $ref: "#/components/schemas/ReportForm"
+                        - $ref: "#/components/schemas/Timestamp"
+    delete:
+      operationId: DeleteReportForm
+      security:
+        - bearerAuth: []
+      description: "Delete Report Form"
+      tags:
+        - "ReportForm"
+      parameters:
+        - $ref: "#/components/parameters/idPathParam"
+
+      responses:
+        "202":
+          description: ReportForm Deleting
+          content:
+            "application/json":
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                    example: 202
+                  message:
+                    type: string
+                    example: ReportForm has been deleted!
+
+        "400":
+          $ref: "#/components/responses/400"
+        "500":
+          "$ref": "#/components/responses/500"
+
+  "/holidays":
+    post:
+      operationId: createHoliday
+      security:
+        - bearerAuth: []
+      description: "Create a new Holiday"
+      tags:
+        - "Holiday"
+      requestBody:
+        content:
+          "application/json":
+            schema:
+              type: object
+              $ref: "#/components/schemas/Holiday"
+      responses:
+        "201":
+          description: Response to create a new Holiday
+          content:
+            "application/json":
+              schema:
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                    example: 201
+                  message:
+                    type: string
+                    example: Added Holiday, Successfully
+                  data:
+                    $ref: "#/components/schemas/HolidayResponse"
+        "400":
+          $ref: "#/components/responses/400"
+        "500":
+          "$ref": "#/components/responses/500"
+    get:
+      operationId: AllReportForms
+      security:
+        - bearerAuth: []
+      description: "Retrive all Holiday"
+      tags:
+        - "Holiday"
+      parameters:
+        - $ref: "#/components/parameters/pageParam"
+        - $ref: "#/components/parameters/limitParam"
+        - $ref: "#/components/parameters/sortTypeParam"
+        - $ref: "#/components/parameters/sortByParam"
+        - $ref: "#/components/parameters/searchParam"
+
+      responses:
+        "200":
+          description: Fetching all Holidays
+          content:
+            "application/json":
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                    example: 202
+                  message:
+                    type: string
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      $ref: "#/components/schemas/HolidayResponse"
+        "500":
+          "$ref": "#/components/responses/500"
+
+  "/holidays/{id}":
+    get:
+      security:
+        - bearerAuth: []
+
+      operationId: getHoliday
+      description: "Retrive single Holiday"
+      tags:
+        - "Holiday"
+      parameters:
+        - $ref: "#/components/parameters/idPathParam"
+
+      responses:
+        "200":
+          description: Fetching a Holiday
+          content:
+            "application/json":
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                    example: 200
+                  message:
+                    type: string
+                    example: Added Holiday, Successfully
+                  data:
+                    $ref: "#/components/schemas/HolidayResponse"
+        "401":
+          "$ref": "#/components/responses/401"
+        "403":
+          "$ref": "#/components/responses/403"
+        "404":
+          "$ref": "#/components/responses/404"
+        "500":
+          "$ref": "#/components/responses/500"
+    put:
+      operationId: updateHoliday
+      security:
+        - bearerAuth: []
+      description: "Update Holiday"
+      tags:
+        - "Holiday"
+      parameters:
+        - $ref: "#/components/parameters/idPathParam"
+      requestBody:
+        content:
+          "application/json":
+            schema:
+              type: object
+              $ref: "#/components/schemas/Holiday"
+
+      responses:
+        "200":
+          description: Update Holiday
+          content:
+            "application/json":
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                    example: 200
+                  message:
+                    type: string
+                    example: Update Holiday, Successfully
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      $ref: "#/components/schemas/HolidayResponse"
+    patch:
+      operationId: updateHolidayProperties
+      security:
+        - bearerAuth: []
+      description: "Update Holiday"
+      tags:
+        - "Holiday"
+      parameters:
+        - $ref: "#/components/parameters/idPathParam"
+      requestBody:
+        content:
+          "application/json":
+            schema:
+              type: object
+              $ref: "#/components/schemas/Holiday"
+
+      responses:
+        "200":
+          description: Update Holiday
+          content:
+            "application/json":
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                    example: 200
+                  message:
+                    type: string
+                    example: Update Holiday, Successfully
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      $ref: "#/components/schemas/HolidayResponse"
+    delete:
+      operationId: DeleteHoliday
+      security:
+        - bearerAuth: []
+      description: "Delete Holiday"
+      tags:
+        - "Holiday"
+      parameters:
+        - $ref: "#/components/parameters/idPathParam"
+
+      responses:
+        "202":
+          description: Holiday Deleting
+          content:
+            "application/json":
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                    example: 202
+                  message:
+                    type: string
+                    example: Report Form has been deleted!
+
+        "400":
+          $ref: "#/components/responses/400"
+        "500":
+          "$ref": "#/components/responses/500"
+
+  "/report-permissions":
+    post:
+      operationId: createReportPermission
+      security:
+        - bearerAuth: []
+      description: "Create a new ReportPermission"
+      tags:
+        - "ReportPermission"
+      requestBody:
+        content:
+          "application/json":
+            schema:
+              type: object
+              $ref: "#/components/schemas/ReportPermission"
+      responses:
+        "201":
+          description: Response to create a new Report Permission
+          content:
+            "application/json":
+              schema:
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                    example: 201
+                  message:
+                    type: string
+                    example: Added Report Permission, Successfully
+                  data:
+                    $ref: "#/components/schemas/ReportPermissionResponse"
+                    # allOf:
+                    #   - $ref: "#components/schemas/ID"
+                    #   - $ref: "#/components/schemas/ReportPermissionResponse"
+                    #   - $ref: "#/components/schemas/Timestamp"
+        "400":
+          $ref: "#/components/responses/400"
+        "500":
+          "$ref": "#/components/responses/500"
+    get:
+      operationId: AllReportForms
+      description: "Retrive all Report Forms"
+      tags:
+        - "ReportPermission"
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/pageParam"
+        - $ref: "#/components/parameters/limitParam"
+        - $ref: "#/components/parameters/sortTypeParam"
+        - $ref: "#/components/parameters/sortByParam"
+        - $ref: "#/components/parameters/searchParam"
+        - $ref: "#/components/parameters/expandsParam"
+
+      responses:
+        "200":
+          description: Fetching all Report Permission
+          content:
+            "application/json":
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                    example: 202
+                  message:
+                    type: string
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      $ref: "#/components/schemas/ReportPermissionResponse"
+        "500":
+          "$ref": "#/components/responses/500"
+  "/report-permissions/self":
+    get:
+      operationId: AllSelfReportPermission
+
+      description: "Retrive all Self Report permissions"
+      tags:
+        - "ReportPermission"
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/pageParam"
+        - $ref: "#/components/parameters/limitParam"
+        - $ref: "#/components/parameters/sortTypeParam"
+        - $ref: "#/components/parameters/sortByParam"
+        - $ref: "#/components/parameters/searchParam"
+        - $ref: "#/components/parameters/expandsParam"
+
+      responses:
+        "200":
+          description: Fetching all Report Permission
+          content:
+            "application/json":
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                    example: 202
+                  message:
+                    type: string
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      $ref: "#/components/schemas/ReportPermissionResponse"
+        "500":
+          "$ref": "#/components/responses/500"
+  "/report-permissions/observe-by":
+    get:
+      operationId: ObserverByMeReportPermission
+
+      description: "Retrive all observe Report permissions with Forms"
+      tags:
+        - "ReportPermission"
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/pageParam"
+        - $ref: "#/components/parameters/limitParam"
+        - $ref: "#/components/parameters/sortTypeParam"
+        - $ref: "#/components/parameters/sortByParam"
+        - $ref: "#/components/parameters/searchParam"
+        - $ref: "#/components/parameters/expandsParam"
+
+      responses:
+        "200":
+          description: Fetching all Report Permission
+          content:
+            "application/json":
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                    example: 202
+                  message:
+                    type: string
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      $ref: "#/components/schemas/ReportPermissionResponse"
+        "500":
+          "$ref": "#/components/responses/500"
+
+  "/report-permissions/{id}":
+    get:
+      security:
+        - bearerAuth: []
+
+      operationId: getReportPermission
+      description: "Retrive single Report Permission"
+      tags:
+        - "ReportPermission"
+      parameters:
+        - $ref: "#/components/parameters/idPathParam"
+
+      responses:
+        "200":
+          description: Fetching a Report Permission data
+          content:
+            "application/json":
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                    example: 200
+                  message:
+                    type: string
+                    example: Added Report Permission, Successfully
+                  data:
+                    $ref: "#/components/schemas/ReportPermissionResponse"
+        "401":
+          "$ref": "#/components/responses/401"
+        "403":
+          "$ref": "#/components/responses/403"
+        "404":
+          "$ref": "#/components/responses/404"
+        "500":
+          "$ref": "#/components/responses/500"
+    patch:
+      operationId: updateReportPermission
+      security:
+        - bearerAuth: []
+      description: "Update Report Form"
+      tags:
+        - "ReportPermission"
+      parameters:
+        - $ref: "#/components/parameters/idPathParam"
+      requestBody:
+        content:
+          "application/json":
+            schema:
+              type: object
+              $ref: "#/components/schemas/ReportPermission"
+
+      responses:
+        "200":
+          description: Update Form
+          content:
+            "application/json":
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                    example: 200
+                  message:
+                    type: string
+                    example: Update Report Form, Successfully
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      $ref: "#/components/schemas/ReportPermissionResponse"
+    delete:
+      operationId: DeleteReportPermission
+      security:
+        - bearerAuth: []
+      description: "Delete Report Form"
+      tags:
+        - "ReportPermission"
+      parameters:
+        - $ref: "#/components/parameters/idPathParam"
+
+      responses:
+        "202":
+          description: Report Permission Deleting
+          content:
+            "application/json":
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                    example: 202
+                  message:
+                    type: string
+                    example: Report Form has been deleted!
+
+        "400":
+          $ref: "#/components/responses/400"
+        "500":
+          "$ref": "#/components/responses/500"
+
+  "/work-reports":
+    post:
+      operationId: createWorkReport
+      security:
+        - bearerAuth: []
+      description: "Create a new Work Report"
+      tags:
+        - "WorkReport"
+      requestBody:
+        content:
+          "application/json":
+            schema:
+              type: object
+              $ref: "#/components/schemas/WorkReport"
+      responses:
+        "201":
+          description: Response to create a new Work Report
+          content:
+            "application/json":
+              schema:
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                    example: 201
+                  message:
+                    type: string
+                    example: Added Holiday, Successfully
+                  data:
+                    $ref: "#/components/schemas/WorkReportResponse"
+        "400":
+          $ref: "#/components/responses/400"
+        "500":
+          "$ref": "#/components/responses/500"
+    get:
+      operationId: AllReportForms
+      description: "Retrive all WorkReport"
+      tags:
+        - "WorkReport"
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/pageParam"
+        - $ref: "#/components/parameters/limitParam"
+        - $ref: "#/components/parameters/sortTypeParam"
+        - $ref: "#/components/parameters/sortByParam"
+        - $ref: "#/components/parameters/searchParam"
+
+      responses:
+        "200":
+          description: Fetching all Holidays
+          content:
+            "application/json":
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                    example: 202
+                  message:
+                    type: string
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      $ref: "#/components/schemas/WorkReportResponse"
+        "500":
+          "$ref": "#/components/responses/500"
+
+  "/work-reports/self":
+    get:
+      operationId: SelfAllReportForms
+      description: "Retrive all WorkReport"
+      tags:
+        - "WorkReport"
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/pageParam"
+        - $ref: "#/components/parameters/limitParam"
+        - $ref: "#/components/parameters/sortTypeParam"
+        - $ref: "#/components/parameters/sortByParam"
+        - $ref: "#/components/parameters/searchParam"
+
+      responses:
+        "200":
+          description: Fetching all Holidays
+          content:
+            "application/json":
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                    example: 202
+                  message:
+                    type: string
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      $ref: "#/components/schemas/WorkReportResponse"
+        "500":
+          "$ref": "#/components/responses/500"
+
+  "/work-reports/{id}":
+    get:
+      security:
+        - bearerAuth: []
+
+      operationId: getWorkReport
+      description: "Retrive single WorkReport"
+      tags:
+        - "WorkReport"
+      parameters:
+        - $ref: "#/components/parameters/idPathParam"
+        - $ref: "#/components/parameters/searchforQueryParam"
+
+      responses:
+        "200":
+          description: Fetching a WorkReport
+          content:
+            "application/json":
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                    example: 200
+                  message:
+                    type: string
+                    example: Added WorkReport, Successfully
+                  data:
+                    $ref: "#/components/schemas/WorkReportResponse"
+        "401":
+          "$ref": "#/components/responses/401"
+        "403":
+          "$ref": "#/components/responses/403"
+        "404":
+          "$ref": "#/components/responses/404"
+        "500":
+          "$ref": "#/components/responses/500"
+    patch:
+      operationId: updateWorkReport
+      security:
+        - bearerAuth: []
+      description: "Update WorkReport"
+      tags:
+        - "WorkReport"
+      parameters:
+        - $ref: "#/components/parameters/idPathParam"
+      requestBody:
+        content:
+          "application/json":
+            schema:
+              type: object
+              $ref: "#/components/schemas/WorkReportPatch"
+
+      responses:
+        "200":
+          description: Update WorkReport
+          content:
+            "application/json":
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                    example: 200
+                  message:
+                    type: string
+                    example: Update WorkReport, Successfully
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      $ref: "#/components/schemas/WorkReportResponse"
+    delete:
+      operationId: DeleteWorkReport
+      security:
+        - bearerAuth: []
+      description: "Delete WorkReport"
+      tags:
+        - "WorkReport"
+      parameters:
+        - $ref: "#/components/parameters/idPathParam"
+
+      responses:
+        "202":
+          description: WorkReport Deleting
+          content:
+            "application/json":
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                    example: 202
+                  message:
+                    type: string
+                    example: Report Form has been deleted!
+
+        "400":
+          $ref: "#/components/responses/400"
+        "500":
+          "$ref": "#/components/responses/500"
+
+  "/work-reports/{id}/observe-by":
+    patch:
+      operationId: updateWorkReportByObserver
+      security:
+        - bearerAuth: []
+      description: "Update WorkReport by under of observer"
+      tags:
+        - "WorkReport"
+      parameters:
+        - $ref: "#/components/parameters/idPathParam"
+      requestBody:
+        content:
+          "application/json":
+            schema:
+              type: object
+              $ref: "#/components/schemas/WorkReportPatch"
+
+      responses:
+        "200":
+          description: Update WorkReport
+          content:
+            "application/json":
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                    example: 200
+                  message:
+                    type: string
+                    example: Update WorkReport, Successfully
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      $ref: "#/components/schemas/WorkReportResponse"
+
+  "/work-reports/report-permission/{report_permission_id}/report-form/{report_form_id}":
+    #  http://localhost:4003/api/v1/work-reports/report-permission/65888277a5b2f7bed1785bed/report-form/657f157b8f57f1abcc44a504
+    get:
+      security:
+        - bearerAuth: []
+
+      operationId: underObserverWorkReports
+      description: "Retrive all WorkReports under of a observer"
+      tags:
+        - "WorkReport"
+      parameters:
+        - $ref: "#/components/parameters/reportPermissionIdPathParam"
+        - $ref: "#/components/parameters/reportFormPathParam"
+        - $ref: "#/components/parameters/expandsParam"
+      # requestBody:
+      #   content:
+      #     "application/json":
+      #       schema:
+      #         type: object
+      #         $ref: "#/components/schemas/WorkReportPatch"
+      responses:
+        "200":
+          description: Retrieve WorkReport under observer of a report permission
+          content:
+            "application/json":
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                    example: 200
+                  message:
+                    type: string
+                    example: Added WorkReport, Successfully
+                  data:
+                    $ref: "#/components/schemas/WorkReportResponse"
+        "401":
+          "$ref": "#/components/responses/401"
+        "403":
+          "$ref": "#/components/responses/403"
+        "404":
+          "$ref": "#/components/responses/404"
+        "500":
+          "$ref": "#/components/responses/500"
+    put:
+      security:
+        - bearerAuth: []
+
+      operationId: underObserverWorkReportUpdate
+      description: "Retrive all WorkReports under of a observer"
+      tags:
+        - "WorkReport"
+      parameters:
+        - $ref: "#/components/parameters/reportPermissionIdPathParam"
+        - $ref: "#/components/parameters/reportFormPathParam"
+        - $ref: "#/components/parameters/expandsParam"
+
+      responses:
+        "200":
+          description: Retrieve WorkReport under observer of a report permission
+          content:
+            "application/json":
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                    example: 200
+                  message:
+                    type: string
+                    example: Added WorkReport, Successfully
+                  data:
+                    $ref: "#/components/schemas/WorkReportResponse"
+        "401":
+          "$ref": "#/components/responses/401"
+        "403":
+          "$ref": "#/components/responses/403"
+        "404":
+          "$ref": "#/components/responses/404"
+        "500":
+          "$ref": "#/components/responses/500"
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    User:
+      properties:
+        id:
+          type: string
+          example: "6568c4210a26245b8cb27313"
+        name:
+          type: string
+          example: Taher
+        email:
+          type: string
+          format: email
+          example: example@domain.com
+        username:
+          type: string
+          example: taher267
+        phone_number:
+          type: string
+          example: 019xxxxxxxxx
+        roles:
+          type: array
+          items:
+            type: string
+            enum: [super_admin, admin, user, observer]
+        # password:
+        #   type: string
+        #   format: password
+        passwordAllow:
+          type: boolean
+        lastLogin:
+          type: string
+          format: date-time
+        status:
+          type: string
+          # example: active
+          enum: ["active", "inactive", "pending"]
+    Auth:
+      properties:
+        name:
+          type: string
+          example: Taher
+        email:
+          type: string
+          format: email
+          example: example@domain.com
+        username:
+          type: string
+          example: taher267
+        phone_number:
+          type: string
+          example: 019xxxxxxxxx
+        password:
+          type: string
+          format: password
+    Hash:
+      properties:
+        hashToken:
+          type: string
+          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbiI6IjhkZDQ1MGFlZjEwMjY4MDkxMTM5MjVmNzJiMWJhNGI1YjI5ODFiZTc2NjBmOTdiOWQ5NTJmZWQzNWM1NzQwNmIiLCJpYXQiOjE3MDE4ODQ4MDIsImV4cCI6MTcwMTg4NTcwMn0.G1kD_YfiIaZO7CjV7uRoFUNsAYEhlLnFni2aNB3mm_I
+    ChangeCredential:
+      properties:
+        newPassword:
+          type: string
+          example: example123
+        confirmPassword:
+          type: string
+          example: example123
+    UserRequest:
+      allOf:
+        - $ref: "#components/schemas/User"
+        - type: object
+          properties:
+            password:
+              type: string
+              format: password
+          required: [name, email, password]
+
+    UserResponse:
+      allOf:
+        - $ref: "#components/schemas/UserCommon"
+        - $ref: "#components/schemas/Timestamp"
+        - $ref: "#components/schemas/ID"
+
+    UserCommon:
+      properties:
+        name:
+          type: string
+          example: Taher
+        email:
+          type: string
+          format: email
+          example: example@domain.com
+        username:
+          type: string
+          example: taher267
+        phone_number:
+          type: string
+          example: 019xxxxxxxxx
+        # password:
+        #   type: string
+        #   format: password
+        passwordAllow:
+          type: boolean
+        lastLogin:
+          type: string
+          format: date-time
+        status:
+          type: string
+          # example: active
+          enum: ["active", "inactive", "pending"]
+
+    ReportForm:
+      properties:
+        name:
+          type: string
+          example: Sales
+        status:
+          type: string
+          enum: [active, inactive]
+          example: active
+          default: active
+        fields:
+          type: array
+          items:
+            type: object
+            properties:
+              label:
+                type: string
+              name:
+                type: string
+                pattern: "^[a-z][a-z_]+$"
+                example: start_time
+              type:
+                type: string
+                enum:
+                  [
+                    "text",
+                    "textarea",
+                    "select",
+                    "button",
+                    "checkbox",
+                    "color",
+                    "date",
+                    "datetime-local",
+                    "email",
+                    "file",
+                    "hidden",
+                    "image",
+                    "month",
+                    "number",
+                    "password",
+                    "radio",
+                    "range",
+                    "reset",
+                    "search",
+                    "submit",
+                    "tel",
+                    "time",
+                    "url",
+                    "week",
+                  ]
+
+                description: For which date do you submit the book?
+              validation:
+                type: string
+                example: "required→The filed is mandatory&pattern→^[a-z][a-z_]+$"
+          required: [label, name, type]
+      # required: [name, fields]
+
+    WorkReport:
+      properties:
+        report_permission_id:
+          # $ref: "#/components/schemas/ID_TYPE_EXAMPLE"
+          type: string
+          example: "64d268cdeef8c84bb18912db"
+        # for_submission_date:
+        #   type: string
+        #   format: date-time
+        fields:
+          type: object
+          # items:
+          #   type: object
+          #   properties:
+          #     name:
+          #       type: string
+          #       example: start_time
+          #     report:
+          #       type: string
+          #       example: 09:30 AM
+          # required: [name, report]
+      required: [report_permission_id, fields] #for_submission_date
+
+    WorkReportPatch:
+      properties:
+        report_permission_id:
+          # $ref: "#/components/schemas/ID_TYPE_EXAMPLE"
+          type: string
+          example: "64d268cdeef8c84bb18912db"
+        status:
+          type: string
+        for_submission_date:
+          type: string
+          format: date-time
+      oneOf:
+        - required: ["status"]
+        - required: ["for_submission_date"]
+    WorkReportResponse:
+      allOf:
+        - $ref: "#/components/schemas/ID"
+        - $ref: "#/components/schemas/WorkReport"
+        - $ref: "#/components/schemas/Timestamp"
+        # open_submission_date
+    ReportPermission:
+      properties:
+        user_id:
+          type: string
+          example: "64d268cdeef8c84bb18912db"
+          # $ref: "#components/schemas/ID_TYPE_EXAMPLE"
+        report_form_id:
+          type: string
+          example: "64d268cdeef8c84bb18912db"
+          # $ref: "#components/schemas/ID_TYPE_EXAMPLE"
+        status:
+          type: string
+          enum: [open, "close"]
+        establishment_id:
+          type: string
+          example: "64d268cdeef8c84bb18912db"
+          # $ref: "#components/schemas/ID_TYPE_EXAMPLE"
+        department_id:
+          type: string
+          example: "64d268cdeef8c84bb18912db"
+          # $ref: "#components/schemas/ID_TYPE_EXAMPLE"
+        holiday_id:
+          type: string
+          example: "64d268cdeef8c84bb18912db"
+          # $ref: "#components/schemas/ID_TYPE_EXAMPLE"
+        observer:
+          description: observer should be a active user and it role would be observer
+          type: string
+          example: "64d268cdeef8c84bb18912db"
+        open_submission_date:
+          description: From which date employee will submit his/her form
+          type: string
+          format: date-time
+
+      required: [user_id, report_form_id, open_submission_date, status]
+
+    Holiday:
+      properties:
+        name:
+          type: string
+        weekly:
+          type: array
+          items:
+            type: integer
+            enum: [0, 1, 2, 3, 4, 5, 6]
+        monthly:
+          type: string
+        occasional:
+          type: array
+          items:
+            type: string
+            format: date-time
+      required:
+        - "name"
+    HolidayResponse:
+      allOf:
+        - $ref: "#/components/schemas/ID"
+        - $ref: "#/components/schemas/Holiday"
+        - $ref: "#/components/schemas/Timestamp"
+
+    ReportPermissionResponse:
+      allOf:
+        - $ref: "#/components/schemas/ID"
+        - $ref: "#/components/schemas/ReportPermission"
+        - $ref: "#/components/schemas/Timestamp"
+
+    ID:
+      # type: object
+      properties:
+        id:
+          type: string
+          example: "64d268cdeef8c84bb18912db"
+    ID_TYPE_EXAMPLE:
+      type: string
+      example: "64d268cdeef8c84bb18912db"
+    Timestamp:
+      type: object
+      properties:
+        createdAt:
+          type: string
+          format: date-time
+          example: "2023-09-20T00:25:31.597Z"
+        updatedAt:
+          type: string
+          format: date-time
+          example: "2023-09-20T00:25:31.597Z"
+    Pagination:
+      type: object
+      properties:
+        page:
+          type: integer
+          format: int32
+          example: 2
+        limit:
+          type: integer
+          format: int32
+          example: 10
+        next:
+          type: integer
+          format: int32
+          example: 3
+        prev:
+          type: integer
+          format: int32
+          example: 1
+        totalPage:
+          type: integer
+          format: int32
+          example: 5
+        totalItems:
+          type: integer
+          format: int32
+          example: 50
+      required:
+        - page
+        - limit
+        - totalPage
+        - totalItems
+
+    Links:
+      type: object
+      properties:
+        self:
+          type: string
+          format: url
+          example: "/products/1"
+        author:
+          type: string
+          format: url
+          example: "/products/1/author"
+        reviews:
+          type: string
+          format: url
+          example: "/products/1/reviews"
+
+  parameters:
+    pageParam:
+      in: query
+      name: page
+      description: current page number
+      schema:
+        type: integer
+        format: int32
+        example: 1
+    limitParam:
+      in: query
+      name: limit
+      description: maximum items items to be returned
+      schema:
+        type: integer
+        format: int32
+        example: 10
+    expandsParam:
+      in: query
+      name: expands
+      description: expanding items
+      schema:
+        type: string
+        example: user,observer
+    sortTypeParam:
+      in: query
+      name: sort_type
+      description: type of sort (asc or dsc)
+      schema:
+        type: string
+        enum: [asc, dsc]
+        example: dsc
+    sortByParam:
+      in: query
+      name: sort_by
+      description: Sort key
+      schema:
+        type: string
+        example: createdAt
+    searchParam:
+      in: query
+      name: search
+      description: Search term
+      schema:
+        type: string
+        example: title
+    searchByParam:
+      in: query
+      name: searchBy
+      description: search field
+      schema:
+        type: string
+        example: name
+    searchTypeParam:
+      in: query
+      name: searchType
+      description: matching with search value or simillar type value
+      schema:
+        type: string
+        enum:
+          - strict
+          - pattern
+    idPathParam:
+      in: path
+      name: id
+      required: true
+      description: Data ID of single item Retrieve
+      schema:
+        type: string
+        example: "64d268cdeef8c84bb18912db"
+    reportPermissionIdPathParam:
+      in: path
+      name: report_permission_id
+      required: true
+      # description: Data ID of single item Retrieve
+      schema:
+        type: string
+        example: "64d268cdeef8c84bb18912db"
+    observerIdPathParam:
+      in: path
+      name: observer_id
+      required: true
+      # description: Data ID of single item Retrieve
+      schema:
+        type: string
+        example: "64d268cdeef8c84bb18912db"
+    reportFormPathParam:
+      in: path
+      name: report_form_id
+      required: true
+      schema:
+        type: string
+        example: "64d268cdeef8c84bb18912db"
+    searchforQueryParam:
+      in: query
+      name: searchfor
+      # required: true
+      # description: Data ID of single item Retrieve
+      schema:
+        type: string
+        enum: [observe, self]
+  responses:
+    "500":
+      description: "Internal Server Error"
+      content:
+        "application/json":
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+                example: 500
+              error:
+                type: string
+                example: Internal Server Error
+              message:
+                type: string
+                example: We are sorry for the inconvenience. Please try again later
+    "400":
+      description: "Bad Request"
+      content:
+        "application/json":
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+                example: 400
+              error:
+                type: string
+                example: Bad Request
+              data:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    field:
+                      type: string
+                      example: email
+                    message:
+                      type: string
+                      example: Invalid email
+                    in:
+                      type: string
+                      enum: [query, body]
+                      example: body
+    "401":
+      description: Unauthorized
+      content:
+        "application/json":
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+                example: 401
+              error:
+                type: string
+                example: Unauthorized
+              message:
+                type: string
+                example: You don't have the right permissions
+    "403":
+      description: Unauthenticated
+      content:
+        "application/json":
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+                example: 401
+              error:
+                type: string
+                example: Unauthenticated
+              message:
+                type: string
+                example: You don't have the right permissions
+    "404":
+      description: Resource Not Found
+      content:
+        "application/json":
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+                example: 404
+              error:
+                type: string
+                example: Not Found
+              message:
+                type: string
+                example: Requested resource not found
