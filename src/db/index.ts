@@ -11,6 +11,7 @@ const DB = async () => {
     console.log(err);
     process.exit(1);
   });
+  console.log({ connectionURL });
   return mongoose.connect(connectionURL, { dbName: DB_NAME });
 };
 
