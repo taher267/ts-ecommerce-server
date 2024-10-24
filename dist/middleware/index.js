@@ -5,12 +5,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const morgan_1 = __importDefault(require("morgan"));
-const swagger_ui_express_1 = __importDefault(require("swagger-ui-express"));
-const yamljs_1 = __importDefault(require("yamljs"));
 const cors_1 = __importDefault(require("cors"));
 const express_fileupload_1 = __importDefault(require("express-fileupload"));
 const compression_1 = __importDefault(require("compression"));
-const swaggerDoc = yamljs_1.default.load("./src/swagger.yaml");
+// const swaggerDoc = YAML.load("./src/swagger.yaml");
 // const swaggerDoc = YAML.load(path.resolve("./swagger.yaml"));
 // const cookieParser from"cookie-parser";
 // const authenticate from'./authenticate';
@@ -43,7 +41,7 @@ const applyMiddleware = (app) => {
         }
         return next();
     });
-    app.use("/docs", swagger_ui_express_1.default.serve, swagger_ui_express_1.default.setup(swaggerDoc));
+    //   app.use("/docs", swaggerUI.serve, swaggerUI.setup(swaggerDoc));
     //   app.use(
     //     OpenApiValidator.middleware({
     //       apiSpec:path.resolve("./swagger.yaml"),
