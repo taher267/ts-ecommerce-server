@@ -4,14 +4,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
-const path_1 = __importDefault(require("path"));
 const morgan_1 = __importDefault(require("morgan"));
 const swagger_ui_express_1 = __importDefault(require("swagger-ui-express"));
 const yamljs_1 = __importDefault(require("yamljs"));
 const cors_1 = __importDefault(require("cors"));
 const express_fileupload_1 = __importDefault(require("express-fileupload"));
 const compression_1 = __importDefault(require("compression"));
-const swaggerDoc = yamljs_1.default.load(path_1.default.resolve("./swagger.yaml"));
+const swaggerDoc = yamljs_1.default.load("./src/swagger.yaml");
+// const swaggerDoc = YAML.load(path.resolve("./swagger.yaml"));
 // const cookieParser from"cookie-parser";
 // const authenticate from'./authenticate';
 const cookieObj = (cookie = "") => cookie?.split?.(/; /g)?.reduce?.((a, c) => {

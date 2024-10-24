@@ -7,7 +7,8 @@ import * as OpenApiValidator from "express-openapi-validator";
 import cors from "cors";
 import fileupload from "express-fileupload";
 import compression from "compression";
-const swaggerDoc = YAML.load(path.resolve("./swagger.yaml"));
+const swaggerDoc = YAML.load("./src/swagger.yaml");
+// const swaggerDoc = YAML.load(path.resolve("./swagger.yaml"));
 // const cookieParser from"cookie-parser";
 // const authenticate from'./authenticate';
 const cookieObj = (cookie = "") =>
