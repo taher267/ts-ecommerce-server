@@ -24,8 +24,8 @@ tags:
     description: User Endpoints (private)
   - name: Product
     description: Product Endpoints (Private)
-  # - name: Department
-  #   description: Department Endpoints (Private)
+  - name: Category
+    description: Category Endpoints (Private)
   # - name: ReportForm
   #   description: ReportForm Endpoints (private)
   # - name: Holiday
@@ -558,20 +558,7 @@ paths:
                   pagination:
                     $ref: "#/components/schemas/Pagination"
                   links:
-                    type: object
-                    properties:
-                      self:
-                        type: string
-                        format: url
-                        example: "/api/v1/users?page=2&limit=1&sort_type=dsc&sort_by=createdAt&search=title"
-                      prev:
-                        type: string
-                        format: url
-                        example: "/api/v1/users?page=21&limit=1&sort_type=dsc&sort_by=createdAt&search=title"
-                      next:
-                        type: string
-                        format: url
-                        example: "/api/v1/users?page=1&limit=1&sort_type=dsc&sort_by=createdAt&search=title"
+                    $ref: "#/components/schemas/Links"
 
         "400":
           $ref: "#/components/responses/400"
@@ -873,8 +860,10 @@ paths:
         - $ref: "#/components/parameters/pageParam"
         - $ref: "#/components/parameters/limitParam"
         - $ref: "#/components/parameters/sortTypeParam"
-        # - $ref: "#/components/parameters/sortByParam"
+        - $ref: "#/components/parameters/sortByParam"
+        - $ref: "#/components/parameters/searchByParam"
         - $ref: "#/components/parameters/searchParam"
+        - $ref: "#/components/parameters/searchTypeParam"
 
       responses:
         "200":
@@ -893,11 +882,15 @@ paths:
                   data:
                     type: array
                     items:
-                      type: object
-                      properties:
-                        name:
-                          type: string
-                          example: Hadia Shop
+                      $ref: "#/components/schemas/ProductShort"
+                  totalItems:
+                    type: integer
+                    format: int32
+                    example: 2
+                  pagination:
+                    $ref: "#/components/schemas/Pagination"
+                  links:
+                    $ref: "#/components/schemas/Links"
         "500":
           "$ref": "#/components/responses/500"
   "/products/{slug}":
@@ -1040,14 +1033,14 @@ paths:
         "500":
           "$ref": "#/components/responses/500"
 
-  "/departments":
+  "/categories":
     post:
-      operationId: createDepartment
+      operationId: createCategory
       security:
         - bearerAuth: []
-      description: "Create a new Department"
+      description: "Create a new category"
       tags:
-        - "Department"
+        - "Category"
       requestBody:
         content:
           "application/json":
@@ -1076,7 +1069,7 @@ paths:
                     example: 201
                   message:
                     type: string
-                    example: Added department, Successfully
+                    example: Added category, Successfully
                   data:
                     type: object
                     properties:
@@ -1091,10 +1084,10 @@ paths:
         "500":
           "$ref": "#/components/responses/500"
     get:
-      operationId: AllDepartments
-      description: "Retrive all Departments"
+      operationId: AllCategories
+      description: "Retrive all categories"
       tags:
-        - "Department"
+        - "Category"
       parameters:
         - $ref: "#/components/parameters/pageParam"
         - $ref: "#/components/parameters/limitParam"
@@ -1104,7 +1097,7 @@ paths:
 
       responses:
         "200":
-          description: Fetching all Department
+          description: Fetching all category
           content:
             "application/json":
               schema:
@@ -1130,18 +1123,18 @@ paths:
         "500":
           "$ref": "#/components/responses/500"
 
-  "/departments/{id}":
+  "/categories/{id}":
     get:
-      operationId: Department
-      description: "Retrive Department"
+      operationId: Category
+      description: "Retrive category"
       tags:
-        - "Department"
+        - "Category"
       parameters:
         - $ref: "#/components/parameters/idPathParam"
 
       responses:
         "200":
-          description: Fetching a Department
+          description: Fetching a category
           content:
             "application/json":
               schema:
@@ -1153,7 +1146,7 @@ paths:
                     example: 200
                   message:
                     type: string
-                    example: Added department, Successfully
+                    example: Added category, Successfully
                   data:
                     type: object
                     properties:
@@ -1172,7 +1165,7 @@ paths:
         "500":
           "$ref": "#/components/responses/500"
     patch:
-      operationId: updateproduct
+      operationId: updateProduct
       security:
         - bearerAuth: []
       description: "Update product"
@@ -1193,7 +1186,7 @@ paths:
 
       responses:
         "200":
-          description: Update Department
+          description: Update category
           content:
             "application/json":
               schema:
@@ -1205,7 +1198,7 @@ paths:
                     example: 200
                   message:
                     type: string
-                    example: Update department, Successfully
+                    example: Update category, Successfully
                   data:
                     type: object
                     properties:
@@ -1216,18 +1209,18 @@ paths:
                         type: string
                         example: 6568c4210a26245b8cb27313
     delete:
-      operationId: DeleteDepartment
+      operationId: DeleteCategory
       security:
         - bearerAuth: []
-      description: "Delete Department"
+      description: "Delete category"
       tags:
-        - "Department"
+        - "Category"
       parameters:
         - $ref: "#/components/parameters/idPathParam"
 
       responses:
         "202":
-          description: Department Deleting
+          description: category Deleting
           content:
             "application/json":
               schema:
@@ -1239,7 +1232,7 @@ paths:
                     example: 202
                   message:
                     type: string
-                    example: Department has been deleted!
+                    example: category has been deleted!
 
         "400":
           $ref: "#/components/responses/400"
@@ -2442,7 +2435,7 @@ components:
           items:
             type: object
             properties:
-              _id:
+              id:
                 type: string
                 description: Unique identifier for the color
                 example: "6713525e652cf392f467dca7"
@@ -2485,7 +2478,7 @@ components:
     Product:
       type: object
       properties:
-        _id:
+        id:
           type: string
           description: Unique identifier for the product
           example: "6713525e652cf392f467dca7"
@@ -2540,7 +2533,7 @@ components:
           items:
             type: object
             properties:
-              _id:
+              id:
                 type: string
                 description: Unique identifier for the color
                 example: "6713525e652cf392f467dca7"
@@ -2586,11 +2579,11 @@ components:
               image:
                 type: string
                 description: URL of the product image
-                example: "https://cdn.rareblocks.xyz/collection/clarity-ecommerce/images/item-cards/10/product-1.png"
+                example: "https://example.com/product-1.png"
     ProductShort:
       type: object
       properties:
-        _id:
+        id:
           type: string
           description: Unique identifier for the product
           example: "6713f5de8651cbe66cc6dd7c"
@@ -2638,7 +2631,7 @@ components:
           items:
             type: object
             properties:
-              _id:
+              id:
                 type: string
                 description: Unique identifier for the category
                 example: "6713e91cf134174a1fa3f8c3"
@@ -2764,7 +2757,7 @@ components:
           type: string
           example: "64d268cdeef8c84bb18912db"
           # $ref: "#components/schemas/ID_TYPE_EXAMPLE"
-        department_id:
+        category_id:
           type: string
           example: "64d268cdeef8c84bb18912db"
           # $ref: "#components/schemas/ID_TYPE_EXAMPLE"
@@ -2931,7 +2924,7 @@ components:
     searchByParam:
       in: query
       name: searchBy
-      description: search field
+      description: Search field
       schema:
         type: string
         example: name
