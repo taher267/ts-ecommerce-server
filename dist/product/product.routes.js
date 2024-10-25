@@ -22,8 +22,14 @@ router.post("/", (0, zod_schema_validator_1.default)(product_schemas_1.default.p
 router.get("/", controllers_1.getAllItems);
 /**
  * @method GET
+ * @url base_url/api/v1/products/:slug
+ * @permession Public
+ */
+router.route("/:slug").get(controllers_1.getItem);
+/**
+ * @method GET
  * @url base_url/api/v1/products/:id
  * @permession Public
  */
-router.route("/:id").get(controllers_1.getItem).delete(controllers_1.removeItem);
+router.route("/:id").delete(controllers_1.removeItem);
 exports.default = router;

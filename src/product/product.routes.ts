@@ -22,8 +22,14 @@ router.post("/", validator(schemas.productAddSchema), addItem);
 router.get("/", getAllItems);
 /**
  * @method GET
+ * @url base_url/api/v1/products/:slug
+ * @permession Public
+ */
+router.route("/:slug").get(getItem);
+/**
+ * @method GET
  * @url base_url/api/v1/products/:id
  * @permession Public
  */
-router.route("/:id").get(getItem).delete(removeItem);
+router.route("/:id").delete(removeItem);
 export default router;

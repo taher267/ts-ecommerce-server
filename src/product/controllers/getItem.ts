@@ -8,8 +8,8 @@ const getItem = async (
   next: ex.NextFunction
 ) => {
   try {
-    const { id } = req.params;
-    const item = await getProduct({ _id: id });
+    const { slug } = req.params;
+    const item = await getProduct({ slug });
     if (!item) throw createHttpError(404, "Resource not found!");
     res.json({ item, success: true });
   } catch (e) {

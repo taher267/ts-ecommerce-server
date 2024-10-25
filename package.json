@@ -23,7 +23,7 @@
     "start": "node ./dist/index.js",
     "start2": "node dist/index.js",
     "dist:dev": "nodemon dist/index.js",
-    "build": "tsc && tsc-alias"
+    "build": "rm -r dist && tsc && tsc-alias"
   },
   "dependencies": {
     "axios": "^1.7.7",
