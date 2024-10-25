@@ -1,6 +1,7 @@
 import express from "express";
 import { addCategory } from "@/category";
 import { newCategoryProps } from "types";
+import idReplacer from "@/utils/idReplacer";
 
 const addItem = async (
   req: express.Request,
@@ -12,8 +13,15 @@ const addItem = async (
     const newObj: newCategoryProps = {
       name,
     };
-    const item = await addCategory(newObj);
-    res.json({ item, success: true });
+    const data = await addCategory(newObj);
+    const item = idReplacer(data);
+    res.json({
+      item,
+      links: {
+        self: `/categories/${item.id}`,
+      },
+      success: true,
+    });
   } catch (e) {
     next(e);
   }

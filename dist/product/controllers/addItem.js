@@ -7,6 +7,7 @@ const product_1 = require("../../product");
 const slugify_1 = __importDefault(require("slugify"));
 const product_category_1 = require("../../product_category");
 const category_1 = require("../../category");
+const idReplacer_1 = __importDefault(require("../../utils/idReplacer"));
 const addItem = async (req, res, next) => {
     try {
         const { name, description, sku, model, brand, regular_price, sale_price, images, slug, currency = "$", features, categories = [], } = req.body;
@@ -25,7 +26,7 @@ const addItem = async (req, res, next) => {
             features,
         };
         const product = await (0, product_1.addProduct)(newObj);
-        const item = {
+        const data = {
             ...product,
             categories,
         };
@@ -37,9 +38,16 @@ const addItem = async (req, res, next) => {
             const get_categories = await (0, category_1.getCategories)({
                 query: { _id: { $in: categories } },
             });
-            item.categories = get_categories;
+            data.categories = get_categories;
         }
-        res.status(201).json({ item, success: true });
+        const item = (0, idReplacer_1.default)(data);
+        res.status(201).json({
+            item,
+            links: {
+                self: `/products/${item.id}`,
+            },
+            success: true,
+        });
     }
     catch (e) {
         next(e);

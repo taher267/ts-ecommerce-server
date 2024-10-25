@@ -4,6 +4,7 @@ import { newProductProps } from "types";
 import slugify from "slugify";
 import { addProductCategory } from "@/product_category";
 import { getCategories } from "@/category";
+import idReplacer from "@/utils/idReplacer";
 
 const addItem = async (
   req: express.Request,
@@ -41,7 +42,7 @@ const addItem = async (
     };
     const product = await addProduct(newObj);
 
-    const item = {
+    const data = {
       ...product,
       categories,
     };
@@ -53,9 +54,16 @@ const addItem = async (
       const get_categories = await getCategories({
         query: { _id: { $in: categories } },
       });
-      item.categories = get_categories;
+      data.categories = get_categories;
     }
-    res.status(201).json({ item, success: true });
+    const item = idReplacer(data);
+    res.status(201).json({
+      item,
+      links: {
+        self: `/products/${item.id}`,
+      },
+      success: true,
+    });
   } catch (e) {
     next(e);
   }

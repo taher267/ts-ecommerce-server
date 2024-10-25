@@ -1,6 +1,7 @@
 import ex from "express";
-import { addCategory } from "@/category";
-import { newCategoryProps } from "types";
+import { getCategory } from "@/category";
+import idReplacer from "@/utils/idReplacer";
+import { notFound } from "@/utils/error";
 
 const getItem = async (
   req: ex.Request,
@@ -8,12 +9,21 @@ const getItem = async (
   next: ex.NextFunction
 ) => {
   try {
-    const { name } = req.body;
-    const newObj: newCategoryProps = {
-      name,
-    };
-    const item = await addCategory(newObj);
-    res.json({ item, success: true });
+    const { id } = req.params;
+
+    const data = await getCategory({ _id: id });
+    if (!data) {
+      throw notFound();
+    }
+    const item = idReplacer(data);
+
+    res.json({
+      item,
+      links: {
+        self: `/categories/${item.id}`,
+      },
+      success: true,
+    });
   } catch (e) {
     next(e);
   }

@@ -26,8 +26,15 @@ export const getCategories = ({
 
 export const categoriesCount = (query: Record<string, any>) =>
   Category.countDocuments(query || {});
-export const getCategory = (query: Record<string, any> = {}) =>
-  Category.findOne(query);
+export const getCategory = (query: Record<string, any> = {}, select = "") =>
+  Category.findOne(query).select(select).exec();
+export const updateCategory = (
+  query: Record<string, any> = {},
+  data: newCategoryProps
+) => Category.findOne(query, data).exec();
 
-export const addCategory = (query: newCategoryProps) =>
-  new Category(query).save().then((data) => data.toObject());
+export const addCategory = (data: newCategoryProps) =>
+  new Category(data).save().then((data) => data.toObject());
+
+export const removeCategory = (query: Record<string, any> = {}) =>
+  Category.deleteOne(query).exec();

@@ -1036,8 +1036,8 @@ paths:
   "/categories":
     post:
       operationId: createCategory
-      security:
-        - bearerAuth: []
+      # security:
+      #   - bearerAuth: []
       description: "Create a new category"
       tags:
         - "Category"
@@ -1164,13 +1164,13 @@ paths:
           "$ref": "#/components/responses/404"
         "500":
           "$ref": "#/components/responses/500"
-    patch:
-      operationId: updateProduct
-      security:
-        - bearerAuth: []
-      description: "Update product"
+    put:
+      operationId: updateCategory
+      # security:
+      #   - bearerAuth: []
+      description: "Update Category"
       tags:
-        - "product"
+        - "Category"
       parameters:
         - $ref: "#/components/parameters/idPathParam"
       requestBody:
@@ -1180,7 +1180,7 @@ paths:
               type: object
               properties:
                 name:
-                  description: product name must be unique!
+                  description: Category name must be unique!
                   type: string
                   example: Hadia Shop
 
@@ -1210,8 +1210,8 @@ paths:
                         example: 6568c4210a26245b8cb27313
     delete:
       operationId: DeleteCategory
-      security:
-        - bearerAuth: []
+      # security:
+      #   - bearerAuth: []
       description: "Delete category"
       tags:
         - "Category"
