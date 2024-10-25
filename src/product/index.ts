@@ -51,6 +51,8 @@ const Product = mg.model("Product", productSchema);
 
 export default Product;
 
+export const productsCount = (query: Record<string, any>) =>
+  Product.countDocuments(query || {});
 export const getProducts = (query: Record<string, any>) => Product.find(query);
 export const getProduct = (query: Record<string, any> = {}, select = "") =>
   Product.findOne(query).select(select).exec();

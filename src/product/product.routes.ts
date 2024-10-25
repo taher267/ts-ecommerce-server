@@ -7,6 +7,7 @@ import {
 } from "@/product/controllers";
 import schemas from "@/validation/validation_schemas/product.schemas";
 import validator from "@/validation/zod.schema.validator";
+import getProductsLimitter from "@/middleware/rateLimitter/getProductsLimiter";
 const router = express.Router();
 /**
  * @method POST
@@ -19,7 +20,7 @@ router.post("/", validator(schemas.productAddSchema), addItem);
  * @url base_url/api/v1/products
  * @permession Public
  */
-router.get("/", getAllItems);
+router.get("/", getProductsLimitter, getAllItems);
 /**
  * @method GET
  * @url base_url/api/v1/products/:slug

@@ -9,31 +9,31 @@ info:
     email: abutaher267@gmail.com
 servers:
   - description: Dev
-    url: "http://localhost:4003/api/v1"
+    url: "http://localhost:4005/api/v1"
   - description: Live
-    url: "https://ecom-server-rw2s.onrender.com/api/v1"
-  - description: Live vercel
-    url: "https://attendence-sheet-rho.vercel.app/api/v1"
-  - description: Ngrok Dynamic
-    url: "https://a3e2-103-96-104-72.ngrok-free.app/api/v1"
+    url: "https://shop-api1.abutaher.online/api/v1"
+  # - description: Live vercel
+  #   url: "https://attendence-sheet-rho.vercel.app/api/v1"
+  # - description: Ngrok Dynamic
+  #   url: "https://a3e2-103-96-104-72.ngrok-free.app/api/v1"
 
 tags:
   - name: Auth
     description: Authentication Endpoints (public)
   - name: User
     description: User Endpoints (private)
-  - name: Establishment
-    description: Establishment Endpoints (Private)
-  - name: Department
-    description: Department Endpoints (Private)
-  - name: ReportForm
-    description: ReportForm Endpoints (private)
-  - name: Holiday
-    description: Holiday Endpoints (Private)
-  - name: ReportPermission
-    description: ReportPermission Endpoints (Private)
-  - name: WorkReport
-    description: WorkReport Endpoints (Private)
+  - name: Product
+    description: Product Endpoints (Private)
+  # - name: Department
+  #   description: Department Endpoints (Private)
+  # - name: ReportForm
+  #   description: ReportForm Endpoints (private)
+  # - name: Holiday
+  #   description: Holiday Endpoints (Private)
+  # - name: ReportPermission
+  #   description: ReportPermission Endpoints (Private)
+  # - name: WorkReport
+  #   description: WorkReport Endpoints (Private)
 paths:
   "/auth/register":
     post:
@@ -839,57 +839,36 @@ paths:
                     type: string
                     example: Password has been updated!
 
-  "/establishments":
+  "/products":
     post:
-      operationId: createEstablishment
+      operationId: createProduct
       security:
         - bearerAuth: []
-      description: "Create a new Establishment"
+      description: "Create a new Product"
       tags:
-        - "Establishment"
+        - "Product"
       requestBody:
         content:
           "application/json":
             schema:
-              type: object
-              properties:
-                name:
-                  description: Establishment name must be unique!
-                  type: string
-                  example: Hadia Shop
-              required:
-                - "name"
+              $ref: "#/components/schemas/ProductCreate"
 
       responses:
         "201":
-          description: Signup Successful
+          description: Product created successfully
           content:
-            "application/json":
+            application/json:
               schema:
-                type: object
-                properties:
-                  code:
-                    type: integer
-                    format: int32
-                    example: 201
-                  message:
-                    type: string
-                    example: Added establishment, Successful
-                  data:
-                    type: object
-                    properties:
-                      name:
-                        type: string
-                        example: Hadia Shop
+                $ref: "#/components/schemas/Product"
         "400":
           $ref: "#/components/responses/400"
         "500":
-          "$ref": "#/components/responses/500"
+          $ref: "#/components/responses/500"
     get:
-      operationId: AllEstablishmentS
-      description: "Retrive all Establishments name"
+      operationId: AllProducts
+      description: "Retrive all products name"
       tags:
-        - "Establishment"
+        - "Product"
       parameters:
         - $ref: "#/components/parameters/pageParam"
         - $ref: "#/components/parameters/limitParam"
@@ -899,7 +878,7 @@ paths:
 
       responses:
         "200":
-          description: Fetching all Establishments
+          description: Fetching all Products
           content:
             "application/json":
               schema:
@@ -921,19 +900,43 @@ paths:
                           example: Hadia Shop
         "500":
           "$ref": "#/components/responses/500"
-
-  "/establishments/{id}":
+  "/products/{slug}":
     get:
-      operationId: Establishments
-      description: "Retrive Establishment name"
+      operationId: Products
+      description: "Retrive product by slug"
       tags:
-        - "Establishment"
+        - "Product"
+      parameters:
+        - $ref: "#/components/parameters/slugPathParam"
+
+      responses:
+        "200":
+          description: Fetching a product
+          content:
+            "application/json":
+              schema:
+                $ref: "#/components/schemas/Product"
+        "401":
+          "$ref": "#/components/responses/401"
+        "403":
+          "$ref": "#/components/responses/403"
+        "404":
+          "$ref": "#/components/responses/404"
+        "500":
+          "$ref": "#/components/responses/500"
+
+  "/products/{id}":
+    get:
+      operationId: Products
+      description: "Retrive product name"
+      tags:
+        - "Product"
       parameters:
         - $ref: "#/components/parameters/idPathParam"
 
       responses:
         "200":
-          description: Fetching a Establishment
+          description: Fetching a product
           content:
             "application/json":
               schema:
@@ -945,7 +948,7 @@ paths:
                     example: 200
                   message:
                     type: string
-                    example: Added Establishment, Successful
+                    example: Added product, Successful
                   data:
                     type: object
                     properties:
@@ -960,13 +963,14 @@ paths:
           "$ref": "#/components/responses/404"
         "500":
           "$ref": "#/components/responses/500"
+
     patch:
-      operationId: updateEstablishment
+      operationId: updateProduct
       security:
         - bearerAuth: []
-      description: "Update Establishment"
+      description: "Update product"
       tags:
-        - "Establishment"
+        - "Product"
       parameters:
         - $ref: "#/components/parameters/idPathParam"
       requestBody:
@@ -976,13 +980,13 @@ paths:
               type: object
               properties:
                 name:
-                  description: Establishment name must be unique!
+                  description: product name must be unique!
                   type: string
                   example: Hadia Shop
 
       responses:
         "200":
-          description: Establishment updated successful
+          description: product updated successful
           content:
             "application/json":
               schema:
@@ -994,7 +998,7 @@ paths:
                     example: 201
                   message:
                     type: string
-                    example: Establishment has been updated!
+                    example: product has been updated!
                   data:
                     type: object
                     properties:
@@ -1006,18 +1010,18 @@ paths:
         "500":
           "$ref": "#/components/responses/500"
     delete:
-      operationId: DeleteEstablishment
+      operationId: DeleteProduct
       security:
         - bearerAuth: []
-      description: "Delete Establishment"
+      description: "Delete product"
       tags:
-        - "Establishment"
+        - "Product"
       parameters:
         - $ref: "#/components/parameters/idPathParam"
 
       responses:
         "202":
-          description: Establishment Deleting
+          description: product Deleting
           content:
             "application/json":
               schema:
@@ -1029,7 +1033,7 @@ paths:
                     example: 202
                   message:
                     type: string
-                    example: Establishment has been Deleted!
+                    example: product has been Deleted!
 
         "400":
           $ref: "#/components/responses/400"
@@ -1053,7 +1057,7 @@ paths:
                 name:
                   type: string
                   example: Sales
-                establishment_id:
+                product_id:
                   type: string
                   example: 6568c4210a26245b8cb27313
               required: [name]
@@ -1079,7 +1083,7 @@ paths:
                       name:
                         type: string
                         example: Hadia Shop
-                      establishment_id:
+                      product_id:
                         type: string
                         example: 6568c4210a26245b8cb27313
         "400":
@@ -1120,7 +1124,7 @@ paths:
                       name:
                         type: string
                         example: Hadia Shop
-                  establishment_id:
+                  product_id:
                     type: string
                     example: 6568c4210a26245b8cb27313
         "500":
@@ -1156,7 +1160,7 @@ paths:
                       name:
                         type: string
                         example: Hadia Shop
-                      establishment_id:
+                      product_id:
                         type: string
                         example: 6568c4210a26245b8cb27313
         "401":
@@ -1168,12 +1172,12 @@ paths:
         "500":
           "$ref": "#/components/responses/500"
     patch:
-      operationId: updateEstablishment
+      operationId: updateproduct
       security:
         - bearerAuth: []
-      description: "Update Establishment"
+      description: "Update product"
       tags:
-        - "Establishment"
+        - "product"
       parameters:
         - $ref: "#/components/parameters/idPathParam"
       requestBody:
@@ -1183,7 +1187,7 @@ paths:
               type: object
               properties:
                 name:
-                  description: Establishment name must be unique!
+                  description: product name must be unique!
                   type: string
                   example: Hadia Shop
 
@@ -1208,7 +1212,7 @@ paths:
                       name:
                         type: string
                         example: Hadia Shop
-                      establishment_id:
+                      product_id:
                         type: string
                         example: 6568c4210a26245b8cb27313
     delete:
@@ -2386,7 +2390,262 @@ components:
           type: string
           # example: active
           enum: ["active", "inactive", "pending"]
-
+    ProductCreate:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Product name must be required!
+          example: "Hadia Shop"
+        slug:
+          type: string
+          description: Unique slug for the product
+          example: "hadia-shop"
+        description:
+          type: string
+          description: Product description must be required!
+          example: "In publishing and graphic design, Lorem ipsum is a placeholder text..."
+        sku:
+          type: string
+          description: Stock Keeping Unit (SKU) must be unique
+          example: "SKU12345"
+        model:
+          type: string
+          description: Model of the product
+          example: "Model X"
+        brand:
+          type: string
+          description: Brand of the product
+          example: "Brand Y"
+        regular_price:
+          type: number
+          format: float
+          description: Regular price of the product
+          example: 29.99
+        sale_price:
+          type: number
+          format: float
+          description: Sale price of the product (if applicable)
+          example: 24.99
+        currency:
+          type: string
+          description: Currency symbol
+          default: "$"
+        features:
+          type: array
+          items:
+            type: string
+          description: List of product features
+          example: ["Feature 1", "Feature 2"]
+        colors:
+          type: array
+          items:
+            type: object
+            properties:
+              _id:
+                type: string
+                description: Unique identifier for the color
+                example: "6713525e652cf392f467dca7"
+              name:
+                type: string
+                description: Name of the color
+                example: "Green"
+              colorCode:
+                type: string
+                description: Hex code of the color
+                example: "#059669"
+        categories:
+          type: array
+          items:
+            type: string
+            description: Category of the product
+            example: "Cloth"
+        tags:
+          type: array
+          items:
+            type: string
+            description: Tag of the product
+            example: "Cloth"
+        sizes:
+          type: array
+          items:
+            type: string
+            description: Size of the product
+            example: "M"
+        images:
+          type: array
+          items:
+            type: object
+            properties:
+              image:
+                type: string
+                description: URL of the product image
+                example: "https://cdn.rareblocks.xyz/collection/clarity-ecommerce/images/item-cards/10/product-1.png"
+      required: [name, slug, description, sku, regular_price]
+    Product:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: Unique identifier for the product
+          example: "6713525e652cf392f467dca7"
+        name:
+          type: string
+          description: Product name must be required!
+          example: "Jenny’s Closets - The winter top for female, green"
+        description:
+          type: string
+          description: Product description must be required!
+          example: |
+            In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content.
+        slug:
+          type: string
+          description: Unique slug for the product
+          example: "Jennys-Closets-The-winter-top-for-female-green"
+        model:
+          type: string
+          description: Model of the product
+          example: "Model X"
+        brand:
+          type: string
+          description: Brand of the product
+          example: "Brand Y"
+        regular_price:
+          type: number
+          format: float
+          description: Regular price of the product
+          example: 99
+        sale_price:
+          type: number
+          format: float
+          description: Sale price of the product (if applicable)
+          example: 49
+        currency:
+          type: string
+          description: Currency symbol
+          default: "$"
+        features:
+          type: array
+          items:
+            type: string
+          description: List of product features
+          example:
+            [
+              "Made with full cotton",
+              "Slim fit for any body",
+              "Quality control by JC",
+            ]
+        colors:
+          type: array
+          items:
+            type: object
+            properties:
+              _id:
+                type: string
+                description: Unique identifier for the color
+                example: "6713525e652cf392f467dca7"
+              name:
+                type: string
+                description: Name of the color
+                example: "Green"
+              colorCode:
+                type: string
+                description: Hex code of the color
+                example: "#059669"
+        categories:
+          type: array
+          items:
+            type: string
+            description: Category of the product
+            example: "Cloth"
+        tags:
+          type: array
+          items:
+            type: string
+            description: Tag of the product
+            example: "Cloth"
+        sizes:
+          type: array
+          items:
+            type: string
+            description: Size of the product
+            example: "M"
+        rating:
+          type: integer
+          description: Product rating
+          example: 5
+        numberOfReviews:
+          type: integer
+          description: Number of reviews for the product
+          example: 2
+        images:
+          type: array
+          items:
+            type: object
+            properties:
+              image:
+                type: string
+                description: URL of the product image
+                example: "https://cdn.rareblocks.xyz/collection/clarity-ecommerce/images/item-cards/10/product-1.png"
+    ProductShort:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: Unique identifier for the product
+          example: "6713f5de8651cbe66cc6dd7c"
+        name:
+          type: string
+          description: Product name must be required!
+          example: "Kiddo Winter Boys Jacket"
+        slug:
+          type: string
+          description: Unique slug for the product
+          example: "kiddo-winter-boys-jacket-j-1"
+        description:
+          type: string
+          description: Product description must be required!
+          example: "In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content."
+        sku:
+          type: string
+          description: Stock Keeping Unit (SKU) must be unique
+          example: "J-1"
+        regular_price:
+          type: number
+          format: float
+          description: Regular price of the product
+          example: 19.93
+        sale_price:
+          type: number
+          format: float
+          description: Sale price of the product (if applicable)
+          example: 15.5
+        currency:
+          type: string
+          description: Currency symbol
+          example: "$"
+        images:
+          type: array
+          items:
+            type: object
+            properties:
+              url:
+                type: string
+                description: URL of the product image
+                example: "https://res.cloudinary.com/dizyugwtg/image/upload/v1729796237/e-com/products/671a9889b817fa07ba83f5e1.png"
+        categories:
+          type: array
+          items:
+            type: object
+            properties:
+              _id:
+                type: string
+                description: Unique identifier for the category
+                example: "6713e91cf134174a1fa3f8c3"
+              name:
+                type: string
+                description: Name of the category
+                example: "Kids Dress"
     ReportForm:
       properties:
         name:
@@ -2501,7 +2760,7 @@ components:
         status:
           type: string
           enum: [open, "close"]
-        establishment_id:
+        product_id:
           type: string
           example: "64d268cdeef8c84bb18912db"
           # $ref: "#components/schemas/ID_TYPE_EXAMPLE"
@@ -2693,6 +2952,14 @@ components:
       schema:
         type: string
         example: "64d268cdeef8c84bb18912db"
+    slugPathParam:
+      in: path
+      name: slug
+      required: true
+      description: Data slug of single item Retrieve
+      schema:
+        type: string
+        example: "kiddo-winter-boys-jacket-j-1"
     reportPermissionIdPathParam:
       in: path
       name: report_permission_id

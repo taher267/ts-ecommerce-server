@@ -11,7 +11,13 @@ const getItem = async (req, res, next) => {
         const item = await (0, product_1.getProduct)({ slug });
         if (!item)
             throw (0, http_errors_1.default)(404, "Resource not found!");
-        res.json({ item, success: true });
+        res.json({
+            item,
+            links: {
+                self: `/products/${slug}`,
+            },
+            success: true,
+        });
     }
     catch (e) {
         next(e);

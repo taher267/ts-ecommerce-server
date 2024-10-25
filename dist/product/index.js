@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.addProduct = exports.deleteProduct = exports.getProduct = exports.getProducts = void 0;
+exports.addProduct = exports.deleteProduct = exports.getProduct = exports.getProducts = exports.productsCount = void 0;
 const mongoose_1 = __importDefault(require("mongoose"));
 const Image = {
     url: { type: String, required: true },
@@ -51,6 +51,8 @@ const productSchema = new mongoose_1.default.Schema({
 }, { timestamps: true });
 const Product = mongoose_1.default.model("Product", productSchema);
 exports.default = Product;
+const productsCount = (query) => Product.countDocuments(query || {});
+exports.productsCount = productsCount;
 const getProducts = (query) => Product.find(query);
 exports.getProducts = getProducts;
 const getProduct = (query = {}, select = "") => Product.findOne(query).select(select).exec();

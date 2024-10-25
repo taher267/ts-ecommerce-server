@@ -24,6 +24,8 @@ export const getCategories = ({
 }) =>
   Category.find(query).select(select).sort(sort).limit(limit).skip(skip).exec();
 
+export const categoriesCount = (query: Record<string, any>) =>
+  Category.countDocuments(query || {});
 export const getCategory = (query: Record<string, any> = {}) =>
   Category.findOne(query);
 
