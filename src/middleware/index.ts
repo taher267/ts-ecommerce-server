@@ -32,6 +32,16 @@ const applyMiddleware = (app: express.Express) => {
       //   credentials: true,
     })
   );
+  app.use((req, res, next) => {
+    const originalJson = res.json;
+    res.json = function (data) {
+      const statusCode = res.statusCode || 200;
+      const responseData = { code: statusCode, ...data };
+      return originalJson.call(this, responseData);
+    };
+
+    next();
+  });
   app.use(morgan("dev"), fileupload(), compression());
   // app.use(cookieParser())
   app.use((req, res, next) => {

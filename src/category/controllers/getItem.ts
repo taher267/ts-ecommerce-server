@@ -10,14 +10,13 @@ const getItem = async (
 ) => {
   try {
     const { id } = req.params;
-
     const data = await getCategory({ _id: id });
     if (!data) {
       throw notFound();
     }
     const item = idReplacer(data);
 
-    res.json({
+    res.status(200).json({
       item,
       links: {
         self: `/categories/${item.id}`,

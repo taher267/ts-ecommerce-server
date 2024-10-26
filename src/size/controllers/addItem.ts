@@ -1,6 +1,7 @@
 import express from "express";
 import { addSize } from "@/size";
 import { newSizeProps } from "types";
+import idReplacer from "@/utils/idReplacer";
 
 const addItem = async (
   req: express.Request,
@@ -12,11 +13,15 @@ const addItem = async (
     const newObj: newSizeProps = {
       name,
     };
-    const item = await addSize(newObj);
-    // const item = {
-    //   name,
-    // };
-    res.json({ item, success: true });
+    const data = await addSize(newObj);
+    const item = idReplacer(data);
+    res.json({
+      item,
+      links: {
+        self: `/sizes/${item.id}`,
+      },
+      // success: true,
+    });
   } catch (e) {
     next(e);
   }

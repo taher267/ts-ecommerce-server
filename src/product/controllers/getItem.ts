@@ -1,6 +1,7 @@
 import ex from "express";
 import { getProduct } from "@/product";
 import createHttpError from "http-errors";
+import idReplacer from "@/utils/idReplacer";
 
 const getItem = async (
   req: ex.Request,
@@ -9,13 +10,15 @@ const getItem = async (
 ) => {
   try {
     const { slug } = req.params;
-    const item = await getProduct({ slug });
-    if (!item) throw createHttpError(404, "Resource not found!");
+    const data = await getProduct({ slug });
+    if (!data) throw createHttpError(404, "Resource not found!");
+    const item = idReplacer(data);
 
     res.json({
       item,
       links: {
-        self: `/products/${slug}`,
+        self: `/products/${item.id}`,
+        "self-slug": `/products/${slug}`,
       },
       success: true,
     });

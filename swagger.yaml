@@ -26,12 +26,12 @@ tags:
     description: Product Endpoints (Private)
   - name: Category
     description: Category Endpoints (Private)
-  # - name: ReportForm
-  #   description: ReportForm Endpoints (private)
-  # - name: Holiday
-  #   description: Holiday Endpoints (Private)
-  # - name: ReportPermission
-  #   description: ReportPermission Endpoints (Private)
+  - name: Tag
+    description: Tag Endpoints (private)
+  - name: Size
+    description: Size Endpoints (Private)
+  - name: Color
+    description: Color Endpoints (Private)
   # - name: WorkReport
   #   description: WorkReport Endpoints (Private)
 paths:
@@ -66,7 +66,7 @@ paths:
                   message:
                     type: string
                     example: Signup Successful
-                  data:
+                  item:
                     type: object
                     properties:
                       user:
@@ -113,7 +113,7 @@ paths:
                   message:
                     type: string
                     example: Successfully register with google
-                  data:
+                  item:
                     type: object
                     properties:
                       user:
@@ -137,7 +137,7 @@ paths:
                   message:
                     type: string
                     example: Successfully Login with google
-                  data:
+                  item:
                     type: object
                     properties:
                       user:
@@ -184,7 +184,7 @@ paths:
                   message:
                     type: string
                     example: Successfully register with google
-                  data:
+                  item:
                     type: object
                     properties:
                       user:
@@ -231,7 +231,7 @@ paths:
                   message:
                     type: string
                     example: Successfully Login with google
-                  data:
+                  item:
                     type: object
                     properties:
                       user:
@@ -279,7 +279,7 @@ paths:
                   message:
                     type: string
                     example: Login Successful
-                  data:
+                  item:
                     type: object
                     properties:
                       access_token:
@@ -359,7 +359,7 @@ paths:
                   message:
                     type: string
                     example: Signup Successful
-                  data:
+                  item:
                     type: object
                     properties:
                       access_token:
@@ -452,7 +452,7 @@ paths:
                   message:
                     type: string
                     example: Password has been reset!
-                  data:
+                  item:
                     type: object
                     properties:
                       accessToken:
@@ -509,7 +509,7 @@ paths:
                   message:
                     type: string
                     example: Added User, Successful
-                  data:
+                  item:
                     type: object
                     properties:
                     $ref: "#components/schemas/UserResponse"
@@ -545,7 +545,7 @@ paths:
                     type: integer
                     format: int32
                     example: 200
-                  data:
+                  items:
                     type: array
                     items:
                       type: object
@@ -590,7 +590,7 @@ paths:
                   message:
                     type: string
                     example: Retrieved a data, Successfully!
-                  data:
+                  item:
                     type: object
                     allOf:
                       - $ref: "#components/schemas/UserCommon"
@@ -630,7 +630,7 @@ paths:
                   message:
                     type: string
                     example: Retrieved a data, Successfully!
-                  data:
+                  item:
                     type: object
                     allOf:
                       - $ref: "#components/schemas/UserCommon"
@@ -690,7 +690,7 @@ paths:
                   message:
                     type: string
                     example: Retrieved a data, Successfully!
-                  data:
+                  item:
                     type: object
                     allOf:
                       - $ref: "#components/schemas/UserCommon"
@@ -879,7 +879,7 @@ paths:
                     example: 202
                   message:
                     type: string
-                  data:
+                  items:
                     type: array
                     items:
                       $ref: "#/components/schemas/ProductShort"
@@ -942,7 +942,7 @@ paths:
                   message:
                     type: string
                     example: Added product, Successful
-                  data:
+                  item:
                     type: object
                     properties:
                       name:
@@ -992,7 +992,7 @@ paths:
                   message:
                     type: string
                     example: product has been updated!
-                  data:
+                  item:
                     type: object
                     properties:
                       name:
@@ -1048,16 +1048,14 @@ paths:
               type: object
               properties:
                 name:
+                  description: Name must be unique and required
                   type: string
                   example: Sales
-                product_id:
-                  type: string
-                  example: 6568c4210a26245b8cb27313
               required: [name]
 
       responses:
         "201":
-          description: Signup Successful
+          description: Successfully category creation.
           content:
             "application/json":
               schema:
@@ -1069,14 +1067,14 @@ paths:
                     example: 201
                   message:
                     type: string
-                    example: Added category, Successfully
-                  data:
+                    example: Added Category, Successfully
+                  item:
                     type: object
                     properties:
                       name:
                         type: string
                         example: Hadia Shop
-                      product_id:
+                      id:
                         type: string
                         example: 6568c4210a26245b8cb27313
         "400":
@@ -1085,7 +1083,8 @@ paths:
           "$ref": "#/components/responses/500"
     get:
       operationId: AllCategories
-      description: "Retrive all categories"
+      summary: Fetch all categories
+      description: Retrieves a paginated list of categories
       tags:
         - "Category"
       parameters:
@@ -1093,11 +1092,13 @@ paths:
         - $ref: "#/components/parameters/limitParam"
         - $ref: "#/components/parameters/sortTypeParam"
         - $ref: "#/components/parameters/sortByParam"
+        - $ref: "#/components/parameters/searchByParam"
         - $ref: "#/components/parameters/searchParam"
+        - $ref: "#/components/parameters/searchTypeParam"
 
       responses:
         "200":
-          description: Fetching all category
+          description: Successful response with category data
           content:
             "application/json":
               schema:
@@ -1105,21 +1106,60 @@ paths:
                 properties:
                   code:
                     type: integer
-                    format: int32
-                    example: 202
+                    example: 200
                   message:
                     type: string
-                  data:
+                    example: "fetch all categories"
+                  items:
                     type: array
                     items:
                       type: object
+                      properties:
+                        id:
+                          type: string
+                          example: "6713e934f134174a1fa3f8c9"
+                        name:
+                          type: string
+                          example: "Men Dress"
+                        link:
+                          type: string
+                          example: "/categories/6713e934f134174a1fa3f8c9"
+                  totalItems:
+                    type: integer
+                    example: 3
+                  pagination:
+                    type: object
                     properties:
-                      name:
+                      page:
+                        type: integer
+                        example: 2
+                      limit:
+                        type: integer
+                        example: 1
+                      totalItems:
+                        type: integer
+                        example: 3
+                      totalPage:
+                        type: integer
+                        example: 3
+                      next:
+                        type: integer
+                        example: 3
+                      prev:
+                        type: integer
+                        example: 1
+                  links:
+                    type: object
+                    properties:
+                      self:
                         type: string
-                        example: Hadia Shop
-                  product_id:
-                    type: string
-                    example: 6568c4210a26245b8cb27313
+                        example: "/?page=2&limit=1&sort_type=dsc&sort_by=createdAt&searchBy=name&search=dress&searchType=pattern"
+                      next:
+                        type: string
+                        example: "/?page=3&limit=1&sort_type=dsc&sort_by=createdAt&searchBy=name&search=dress&searchType=pattern"
+                      prev:
+                        type: string
+                        example: "/?page=1&limit=1&sort_type=dsc&sort_by=createdAt&searchBy=name&search=dress&searchType=pattern"
         "500":
           "$ref": "#/components/responses/500"
 
@@ -1142,20 +1182,25 @@ paths:
                 properties:
                   code:
                     type: integer
-                    format: int32
                     example: 200
                   message:
                     type: string
-                    example: Added category, Successfully
-                  data:
+                    example: "Retrieve data"
+                  item:
                     type: object
                     properties:
+                      id:
+                        type: string
+                        example: "6713e93ff134174a1fa3f8cc"
                       name:
                         type: string
-                        example: Hadia Shop
-                      product_id:
+                        example: "Shoe"
+                  links:
+                    type: object
+                    properties:
+                      self:
                         type: string
-                        example: 6568c4210a26245b8cb27313
+                        example: "/categories/6713e93ff134174a1fa3f8cc"
         "401":
           "$ref": "#/components/responses/401"
         "403":
@@ -1194,20 +1239,25 @@ paths:
                 properties:
                   code:
                     type: integer
-                    format: int32
                     example: 200
                   message:
                     type: string
-                    example: Update category, Successfully
-                  data:
+                    example: "Retrieve data"
+                  item:
                     type: object
                     properties:
+                      id:
+                        type: string
+                        example: "6713e93ff134174a1fa3f8cc"
                       name:
                         type: string
-                        example: Hadia Shop
-                      product_id:
+                        example: "Shoe"
+                  links:
+                    type: object
+                    properties:
+                      self:
                         type: string
-                        example: 6568c4210a26245b8cb27313
+                        example: "/categories/6713e93ff134174a1fa3f8cc"
     delete:
       operationId: DeleteCategory
       # security:
@@ -1232,7 +1282,802 @@ paths:
                     example: 202
                   message:
                     type: string
-                    example: category has been deleted!
+                    example: Category has been deleted!
+
+        "400":
+          $ref: "#/components/responses/400"
+        "500":
+          "$ref": "#/components/responses/500"
+
+  "/tags":
+    post:
+      operationId: createTag
+      # security:
+      #   - bearerAuth: []
+      description: "Create a new tag"
+      tags:
+        - "Tag"
+      requestBody:
+        content:
+          "application/json":
+            schema:
+              type: object
+              properties:
+                name:
+                  description: Name must be unique and required
+                  type: string
+                  example: Sales
+              required: [name]
+
+      responses:
+        "201":
+          description: Successfully tag creation.
+          content:
+            "application/json":
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                    example: 201
+                  message:
+                    type: string
+                    example: Added Tag, Successfully
+                  item:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                        example: Hadia Shop
+                      id:
+                        type: string
+                        example: 6568c4210a26245b8cb27313
+        "400":
+          $ref: "#/components/responses/400"
+        "500":
+          "$ref": "#/components/responses/500"
+    get:
+      operationId: AllCategories
+      summary: Fetch all tags
+      description: Retrieves a paginated list of tags
+      tags:
+        - "Tag"
+      parameters:
+        - $ref: "#/components/parameters/pageParam"
+        - $ref: "#/components/parameters/limitParam"
+        - $ref: "#/components/parameters/sortTypeParam"
+        - $ref: "#/components/parameters/sortByParam"
+        - $ref: "#/components/parameters/searchByParam"
+        - $ref: "#/components/parameters/searchParam"
+        - $ref: "#/components/parameters/searchTypeParam"
+
+      responses:
+        "200":
+          description: Successful response with tag data
+          content:
+            "application/json":
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 200
+                  message:
+                    type: string
+                    example: "fetch all tags"
+                  items:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          example: "6713e934f134174a1fa3f8c9"
+                        name:
+                          type: string
+                          example: "Men Dress"
+                        link:
+                          type: string
+                          example: "/tags/6713e934f134174a1fa3f8c9"
+                  totalItems:
+                    type: integer
+                    example: 3
+                  pagination:
+                    type: object
+                    properties:
+                      page:
+                        type: integer
+                        example: 2
+                      limit:
+                        type: integer
+                        example: 1
+                      totalItems:
+                        type: integer
+                        example: 3
+                      totalPage:
+                        type: integer
+                        example: 3
+                      next:
+                        type: integer
+                        example: 3
+                      prev:
+                        type: integer
+                        example: 1
+                  links:
+                    type: object
+                    properties:
+                      self:
+                        type: string
+                        example: "/?page=2&limit=1&sort_type=dsc&sort_by=createdAt&searchBy=name&search=dress&searchType=pattern"
+                      next:
+                        type: string
+                        example: "/?page=3&limit=1&sort_type=dsc&sort_by=createdAt&searchBy=name&search=dress&searchType=pattern"
+                      prev:
+                        type: string
+                        example: "/?page=1&limit=1&sort_type=dsc&sort_by=createdAt&searchBy=name&search=dress&searchType=pattern"
+        "500":
+          "$ref": "#/components/responses/500"
+
+  "/tags/{id}":
+    get:
+      operationId: Tag
+      description: "Retrive tag"
+      tags:
+        - "Tag"
+      parameters:
+        - $ref: "#/components/parameters/idPathParam"
+
+      responses:
+        "200":
+          description: Fetching a tag
+          content:
+            "application/json":
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 200
+                  message:
+                    type: string
+                    example: "Retrieve data"
+                  item:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        example: "6713e93ff134174a1fa3f8cc"
+                      name:
+                        type: string
+                        example: "Shoe"
+                  links:
+                    type: object
+                    properties:
+                      self:
+                        type: string
+                        example: "/tags/6713e93ff134174a1fa3f8cc"
+        "401":
+          "$ref": "#/components/responses/401"
+        "403":
+          "$ref": "#/components/responses/403"
+        "404":
+          "$ref": "#/components/responses/404"
+        "500":
+          "$ref": "#/components/responses/500"
+    put:
+      operationId: updateTag
+      # security:
+      #   - bearerAuth: []
+      description: "Update Tag"
+      tags:
+        - "Tag"
+      parameters:
+        - $ref: "#/components/parameters/idPathParam"
+      requestBody:
+        content:
+          "application/json":
+            schema:
+              type: object
+              properties:
+                name:
+                  description: Tag name must be unique!
+                  type: string
+                  example: Hadia Shop
+
+      responses:
+        "200":
+          description: Update tag
+          content:
+            "application/json":
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 200
+                  message:
+                    type: string
+                    example: "Retrieve data"
+                  item:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        example: "6713e93ff134174a1fa3f8cc"
+                      name:
+                        type: string
+                        example: "Shoe"
+                  links:
+                    type: object
+                    properties:
+                      self:
+                        type: string
+                        example: "/tags/6713e93ff134174a1fa3f8cc"
+    delete:
+      operationId: DeleteTag
+      # security:
+      #   - bearerAuth: []
+      description: "Delete tag"
+      tags:
+        - "Tag"
+      parameters:
+        - $ref: "#/components/parameters/idPathParam"
+
+      responses:
+        "202":
+          description: tag Deleting
+          content:
+            "application/json":
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                    example: 202
+                  message:
+                    type: string
+                    example: Tag has been deleted!
+
+        "400":
+          $ref: "#/components/responses/400"
+        "500":
+          "$ref": "#/components/responses/500"
+  "/sizes":
+    post:
+      operationId: createSize
+      # security:
+      #   - bearerAuth: []
+      description: "Create a new size"
+      tags:
+        - "Size"
+      requestBody:
+        content:
+          "application/json":
+            schema:
+              type: object
+              properties:
+                name:
+                  description: Name must be unique and required
+                  type: string
+                  example: XXXL
+              required: [name]
+
+      responses:
+        "201":
+          description: Successfully size creation.
+          content:
+            "application/json":
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                    example: 201
+                  message:
+                    type: string
+                    example: Added Size, Successfully
+                  item:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                        example: Hadia Shop
+                      id:
+                        type: string
+                        example: 6568c4210a26245b8cb27313
+        "400":
+          $ref: "#/components/responses/400"
+        "500":
+          "$ref": "#/components/responses/500"
+    get:
+      operationId: AllCategories
+      summary: Fetch all sizes
+      description: Retrieves a paginated list of sizes
+      tags:
+        - "Size"
+      parameters:
+        - $ref: "#/components/parameters/pageParam"
+        - $ref: "#/components/parameters/limitParam"
+        - $ref: "#/components/parameters/sortTypeParam"
+        - $ref: "#/components/parameters/sortByParam"
+        - $ref: "#/components/parameters/searchByParam"
+        - $ref: "#/components/parameters/searchParam"
+        - $ref: "#/components/parameters/searchTypeParam"
+
+      responses:
+        "200":
+          description: Successful response with size data
+          content:
+            "application/json":
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 200
+                  message:
+                    type: string
+                    example: "fetch all sizes"
+                  items:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          example: "6713e934f134174a1fa3f8c9"
+                        name:
+                          type: string
+                          example: "Men Dress"
+                        link:
+                          type: string
+                          example: "/sizes/6713e934f134174a1fa3f8c9"
+                  totalItems:
+                    type: integer
+                    example: 3
+                  pagination:
+                    type: object
+                    properties:
+                      page:
+                        type: integer
+                        example: 2
+                      limit:
+                        type: integer
+                        example: 1
+                      totalItems:
+                        type: integer
+                        example: 3
+                      totalPage:
+                        type: integer
+                        example: 3
+                      next:
+                        type: integer
+                        example: 3
+                      prev:
+                        type: integer
+                        example: 1
+                  links:
+                    type: object
+                    properties:
+                      self:
+                        type: string
+                        example: "/?page=2&limit=1&sort_type=dsc&sort_by=createdAt&searchBy=name&search=dress&searchType=pattern"
+                      next:
+                        type: string
+                        example: "/?page=3&limit=1&sort_type=dsc&sort_by=createdAt&searchBy=name&search=dress&searchType=pattern"
+                      prev:
+                        type: string
+                        example: "/?page=1&limit=1&sort_type=dsc&sort_by=createdAt&searchBy=name&search=dress&searchType=pattern"
+        "500":
+          "$ref": "#/components/responses/500"
+
+  "/sizes/{id}":
+    get:
+      operationId: Size
+      description: "Retrive size"
+      tags:
+        - "Size"
+      parameters:
+        - $ref: "#/components/parameters/idPathParam"
+
+      responses:
+        "200":
+          description: Fetching a size
+          content:
+            "application/json":
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 200
+                  message:
+                    type: string
+                    example: "Retrieve data"
+                  item:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        example: "6713e93ff134174a1fa3f8cc"
+                      name:
+                        type: string
+                        example: "Shoe"
+                  links:
+                    type: object
+                    properties:
+                      self:
+                        type: string
+                        example: "/sizes/6713e93ff134174a1fa3f8cc"
+        "401":
+          "$ref": "#/components/responses/401"
+        "403":
+          "$ref": "#/components/responses/403"
+        "404":
+          "$ref": "#/components/responses/404"
+        "500":
+          "$ref": "#/components/responses/500"
+    put:
+      operationId: updateSize
+      # security:
+      #   - bearerAuth: []
+      description: "Update Size"
+      tags:
+        - "Size"
+      parameters:
+        - $ref: "#/components/parameters/idPathParam"
+      requestBody:
+        content:
+          "application/json":
+            schema:
+              type: object
+              properties:
+                name:
+                  description: Size name must be unique!
+                  type: string
+                  example: Hadia Shop
+
+      responses:
+        "200":
+          description: Update size
+          content:
+            "application/json":
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 200
+                  message:
+                    type: string
+                    example: "Retrieve data"
+                  item:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        example: "6713e93ff134174a1fa3f8cc"
+                      name:
+                        type: string
+                        example: "Shoe"
+                  links:
+                    type: object
+                    properties:
+                      self:
+                        type: string
+                        example: "/sizes/6713e93ff134174a1fa3f8cc"
+    delete:
+      operationId: DeleteSize
+      # security:
+      #   - bearerAuth: []
+      description: "Delete size"
+      tags:
+        - "Size"
+      parameters:
+        - $ref: "#/components/parameters/idPathParam"
+
+      responses:
+        "202":
+          description: size Deleting
+          content:
+            "application/json":
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                    example: 202
+                  message:
+                    type: string
+                    example: Size has been deleted!
+
+        "400":
+          $ref: "#/components/responses/400"
+        "500":
+          "$ref": "#/components/responses/500"
+  "/colors":
+    post:
+      operationId: createColor
+      # security:
+      #   - bearerAuth: []
+      description: "Create a new color"
+      tags:
+        - "Color"
+      requestBody:
+        content:
+          "application/json":
+            schema:
+              type: object
+              properties:
+                name:
+                  description: Name must be unique
+                  type: string
+                  example: red
+                code:
+                  description: Code must be unique and required
+                  type: string
+                  example: "#FFFFFF"
+              required: [code]
+
+      responses:
+        "201":
+          description: Successfully color creation.
+          content:
+            "application/json":
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                    example: 201
+                  message:
+                    type: string
+                    example: Added Color, Successfully
+                  item:
+                    type: object
+                    properties:
+                      name:
+                        description: Name must be unique
+                        type: string
+                        example: red
+                      code:
+                        description: Code must be unique and required
+                        type: string
+                        example: "#FFFFFF"
+                      id:
+                        type: string
+                        example: 6568c4210a26245b8cb27313
+        "400":
+          $ref: "#/components/responses/400"
+        "500":
+          $ref: "#/components/responses/500"
+    get:
+      operationId: AllCategories
+      summary: Fetch all colors
+      description: Retrieves a paginated list of colors
+      tags:
+        - "Color"
+      parameters:
+        - $ref: "#/components/parameters/pageParam"
+        - $ref: "#/components/parameters/limitParam"
+        - $ref: "#/components/parameters/sortTypeParam"
+        - $ref: "#/components/parameters/sortByParam"
+        - $ref: "#/components/parameters/searchByParam"
+        - $ref: "#/components/parameters/searchParam"
+        - $ref: "#/components/parameters/searchTypeParam"
+
+      responses:
+        "200":
+          description: Successful response with color data
+          content:
+            "application/json":
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 200
+                  message:
+                    type: string
+                    example: "fetch all colors"
+                  items:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          example: "6713e934f134174a1fa3f8c9"
+                        name:
+                          description: Name must be unique
+                          type: string
+                          example: red
+                        code:
+                          description: Code must be unique and required
+                          type: string
+                          example: "#FFFFFF"
+                        link:
+                          type: string
+                          example: "/colors/6713e934f134174a1fa3f8c9"
+                  totalItems:
+                    type: integer
+                    example: 3
+                  pagination:
+                    type: object
+                    properties:
+                      page:
+                        type: integer
+                        example: 2
+                      limit:
+                        type: integer
+                        example: 1
+                      totalItems:
+                        type: integer
+                        example: 3
+                      totalPage:
+                        type: integer
+                        example: 3
+                      next:
+                        type: integer
+                        example: 3
+                      prev:
+                        type: integer
+                        example: 1
+                  links:
+                    type: object
+                    properties:
+                      self:
+                        type: string
+                        example: "/?page=2&limit=1&sort_type=dsc&sort_by=createdAt&searchBy=name&search=dress&searchType=pattern"
+                      next:
+                        type: string
+                        example: "/?page=3&limit=1&sort_type=dsc&sort_by=createdAt&searchBy=name&search=dress&searchType=pattern"
+                      prev:
+                        type: string
+                        example: "/?page=1&limit=1&sort_type=dsc&sort_by=createdAt&searchBy=name&search=dress&searchType=pattern"
+        "500":
+          $ref: "#/components/responses/500"
+
+  "/colors/{id}":
+    get:
+      operationId: Color
+      description: "Retrive color"
+      tags:
+        - "Color"
+      parameters:
+        - $ref: "#/components/parameters/idPathParam"
+
+      responses:
+        "200":
+          description: Fetching a color
+          content:
+            "application/json":
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 200
+                  message:
+                    type: string
+                    example: "Retrieve data"
+                  item:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        example: "6713e93ff134174a1fa3f8cc"
+                      name:
+                        description: Name must be unique
+                        type: string
+                        example: red
+                      code:
+                        description: Code must be unique and required
+                        type: string
+                        example: "#FFFFFF"
+                  links:
+                    type: object
+                    properties:
+                      self:
+                        type: string
+                        example: "/colors/6713e93ff134174a1fa3f8cc"
+        "401":
+          $ref: "#/components/responses/401"
+        "403":
+          $ref: "#/components/responses/403"
+        "404":
+          $ref: "#/components/responses/404"
+        "500":
+          $ref: "#/components/responses/500"
+
+    put:
+      operationId: updateColor
+      # security:
+      #   - bearerAuth: []
+      description: "Update Color"
+      tags:
+        - "Color"
+      parameters:
+        - $ref: "#/components/parameters/idPathParam"
+      requestBody:
+        content:
+          "application/json":
+            schema:
+              type: object
+              properties:
+                name:
+                  description: Name must be unique
+                  type: string
+                  example: red
+                code:
+                  description: Code must be unique and required
+                  type: string
+                  example: "#FFFFFF"
+
+      responses:
+        "200":
+          description: Update color
+          content:
+            "application/json":
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 200
+                  message:
+                    type: string
+                    example: "Retrieve data"
+                  item:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        example: "6713e93ff134174a1fa3f8cc"
+                      name:
+                        description: Name must be unique
+                        type: string
+                        example: red
+                      code:
+                        description: Code must be unique and required
+                        type: string
+                        example: "#FFFFFF"
+                  links:
+                    type: object
+                    properties:
+                      self:
+                        type: string
+                        example: "/colors/6713e93ff134174a1fa3f8cc"
+    delete:
+      operationId: DeleteColor
+      # security:
+      #   - bearerAuth: []
+      description: "Delete color"
+      tags:
+        - "Color"
+      parameters:
+        - $ref: "#/components/parameters/idPathParam"
+
+      responses:
+        "202":
+          description: color Deleting
+          content:
+            "application/json":
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    format: int32
+                    example: 202
+                  message:
+                    type: string
+                    example: Color has been deleted!
 
         "400":
           $ref: "#/components/responses/400"
@@ -1268,7 +2113,7 @@ paths:
                   message:
                     type: string
                     example: Added Report Form, Successfully
-                  data:
+                  item:
                     type: object
                     allOf:
                       - $ref: "#components/schemas/ID"
@@ -1307,7 +2152,7 @@ paths:
                     example: 202
                   message:
                     type: string
-                  data:
+                  items:
                     type: array
                     items:
                       type: object
@@ -1346,7 +2191,7 @@ paths:
                     example: 202
                   message:
                     type: string
-                  data:
+                  items:
                     type: array
                     items:
                       type: object
@@ -1384,7 +2229,7 @@ paths:
                   message:
                     type: string
                     example: Added Report Form, Successfully
-                  data:
+                  item:
                     type: object
                     allOf:
                       - $ref: "#components/schemas/ID"
@@ -1429,7 +2274,7 @@ paths:
                   message:
                     type: string
                     example: Update Report Form, Successfully
-                  data:
+                  items:
                     type: array
                     items:
                       type: object
@@ -1530,7 +2375,7 @@ paths:
                     example: 202
                   message:
                     type: string
-                  data:
+                  items:
                     type: array
                     items:
                       type: object
@@ -1606,7 +2451,7 @@ paths:
                   message:
                     type: string
                     example: Update Holiday, Successfully
-                  data:
+                  items:
                     type: array
                     items:
                       type: object
@@ -1642,7 +2487,7 @@ paths:
                   message:
                     type: string
                     example: Update Holiday, Successfully
-                  data:
+                  items:
                     type: array
                     items:
                       type: object
@@ -1745,7 +2590,7 @@ paths:
                     example: 202
                   message:
                     type: string
-                  data:
+                  items:
                     type: array
                     items:
                       type: object
@@ -1783,7 +2628,7 @@ paths:
                     example: 202
                   message:
                     type: string
-                  data:
+                  items:
                     type: array
                     items:
                       type: object
@@ -1821,7 +2666,7 @@ paths:
                     example: 202
                   message:
                     type: string
-                  data:
+                  items:
                     type: array
                     items:
                       type: object
@@ -1897,7 +2742,7 @@ paths:
                   message:
                     type: string
                     example: Update Report Form, Successfully
-                  data:
+                  items:
                     type: array
                     items:
                       type: object
@@ -1995,7 +2840,7 @@ paths:
                     example: 202
                   message:
                     type: string
-                  data:
+                  items:
                     type: array
                     items:
                       type: object
@@ -2032,7 +2877,7 @@ paths:
                     example: 202
                   message:
                     type: string
-                  data:
+                  items:
                     type: array
                     items:
                       type: object
@@ -2109,7 +2954,7 @@ paths:
                   message:
                     type: string
                     example: Update WorkReport, Successfully
-                  data:
+                  items:
                     type: array
                     items:
                       type: object
@@ -2177,7 +3022,7 @@ paths:
                   message:
                     type: string
                     example: Update WorkReport, Successfully
-                  data:
+                  items:
                     type: array
                     items:
                       type: object
@@ -2753,7 +3598,7 @@ components:
         status:
           type: string
           enum: [open, "close"]
-        product_id:
+        id:
           type: string
           example: "64d268cdeef8c84bb18912db"
           # $ref: "#components/schemas/ID_TYPE_EXAMPLE"
@@ -2858,7 +3703,24 @@ components:
         - limit
         - totalPage
         - totalItems
-
+    CategoryResp:
+      properties:
+        code:
+          type: integer
+          format: int32
+          example: 201
+        message:
+          type: string
+          example: Added Category, Successfully
+        item:
+          type: object
+          properties:
+            name:
+              type: string
+              example: Hadia Shop
+            id:
+              type: string
+              example: 6568c4210a26245b8cb27313
     Links:
       type: object
       properties:

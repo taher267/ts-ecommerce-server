@@ -1,5 +1,7 @@
 import ex from "express";
 import { getSize } from "@/size";
+import idReplacer from "@/utils/idReplacer";
+import { notFound } from "@/utils/error";
 
 const getItem = async (
   req: ex.Request,
@@ -7,10 +9,22 @@ const getItem = async (
   next: ex.NextFunction
 ) => {
   try {
-    // const {  } = req.body;
+    const { id } = req.params;
 
-    const item = await getSize({});
-    res.json({ item, success: true });
+    const data = await getSize({ _id: id });
+
+    if (!data) {
+      throw notFound();
+    }
+    const item = idReplacer(data);
+
+    res.status(200).json({
+      item,
+      links: {
+        self: `/sizes/${item.id}`,
+      },
+      // success: true,
+    });
   } catch (e) {
     next(e);
   }

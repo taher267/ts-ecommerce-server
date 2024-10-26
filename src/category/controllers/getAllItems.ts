@@ -40,8 +40,8 @@ const getAllItems = async (
       skip,
       sort: sortStr,
     });
-    if (!items) {
-      return res.json({ items });
+    if (!items?.length) {
+      throw res.json({ items });
     }
     const datas = idReplacer(items);
     const dataItems = getTransformedItems({
