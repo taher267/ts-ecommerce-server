@@ -58,6 +58,15 @@ const applyMiddleware = (app) => {
     //   ],
     //   credentials: true,
     }));
+    app.use((req, res, next) => {
+        const originalJson = res.json;
+        res.json = function (data) {
+            const statusCode = res.statusCode || 200;
+            const responseData = { code: statusCode, ...data };
+            return originalJson.call(this, responseData);
+        };
+        next();
+    });
     app.use((0, morgan_1.default)("dev"), (0, express_fileupload_1.default)(), (0, compression_1.default)());
     // app.use(cookieParser())
     app.use((req, res, next) => {

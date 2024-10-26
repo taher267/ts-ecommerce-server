@@ -35,3 +35,6 @@ export const addSize = (query: newSizeProps) =>
   new Size(query).save().then((data) => data.toObject());
 export const sizesCount = (query: Record<string, any>) =>
   Size.countDocuments(query || {});
+
+export const deleteSize = (query: Record<string, any> = {}) =>
+  Size.deleteOne(query).exec();

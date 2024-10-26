@@ -1,11 +1,26 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const tag_1 = require("../../tag");
+const idReplacer_1 = __importDefault(require("../../utils/idReplacer"));
+const error_1 = require("../../utils/error");
 const getItem = async (req, res, next) => {
     try {
-        // const {  } = req.body;
-        const item = await (0, tag_1.getTag)({});
-        res.json({ item, success: true });
+        const { id } = req.params;
+        const data = await (0, tag_1.getTag)({ _id: id });
+        if (!data) {
+            throw (0, error_1.notFound)();
+        }
+        const item = (0, idReplacer_1.default)(data);
+        res.status(200).json({
+            item,
+            links: {
+                self: `/tags/${item.id}`,
+            },
+            // success: true,
+        });
     }
     catch (e) {
         next(e);

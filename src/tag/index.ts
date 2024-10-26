@@ -20,3 +20,8 @@ export const getTag = (query: Record<string, any> = {}, select = "") =>
   Tag.findOne(query).select(select).exec();
 export const addTag = (query: newTagProps) =>
   new Tag(query).save().then((data) => data.toObject());
+export const tagsCount = (query: Record<string, any>) =>
+  Tag.countDocuments(query || {});
+
+export const deleteTag = (query: Record<string, any> = {}) =>
+  Tag.deleteOne(query).exec();

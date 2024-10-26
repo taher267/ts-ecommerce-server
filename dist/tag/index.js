@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.addTag = exports.getTag = exports.getTags = void 0;
+exports.deleteTag = exports.tagsCount = exports.addTag = exports.getTag = exports.getTags = void 0;
 const mongoose_1 = __importDefault(require("mongoose"));
 const TagSchema = new mongoose_1.default.Schema({
     name: {
@@ -22,3 +22,7 @@ const getTag = (query = {}, select = "") => Tag.findOne(query).select(select).ex
 exports.getTag = getTag;
 const addTag = (query) => new Tag(query).save().then((data) => data.toObject());
 exports.addTag = addTag;
+const tagsCount = (query) => Tag.countDocuments(query || {});
+exports.tagsCount = tagsCount;
+const deleteTag = (query = {}) => Tag.deleteOne(query).exec();
+exports.deleteTag = deleteTag;

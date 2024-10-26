@@ -3,18 +3,22 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const size_1 = require("../../size");
+const tag_1 = require("../../tag");
 const idReplacer_1 = __importDefault(require("../../utils/idReplacer"));
 const error_1 = require("../../utils/error");
-const getItem = async (req, res, next) => {
+const updateItem = async (req, res, next) => {
     try {
-        const { id } = req.params;
-        const data = await (0, size_1.getSize)({ _id: id });
+        const { body: { name }, params: { id: _id }, } = req;
+        const data = await (0, tag_1.getTag)({ _id });
         if (!data) {
             throw (0, error_1.notFound)();
         }
-        const item = (0, idReplacer_1.default)(data);
-        res.status(200).json({
+        if (name) {
+            data.name = name;
+        }
+        const updated = await data.save();
+        const item = (0, idReplacer_1.default)(updated);
+        res.json({
             item,
             links: {
                 self: `/sizes/${item.id}`,
@@ -26,4 +30,4 @@ const getItem = async (req, res, next) => {
         next(e);
     }
 };
-exports.default = getItem;
+exports.default = updateItem;

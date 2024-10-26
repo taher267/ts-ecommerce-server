@@ -14,7 +14,7 @@ const getItem = async (req, res, next) => {
             throw (0, error_1.notFound)();
         }
         const item = (0, idReplacer_1.default)(data);
-        res.json({
+        res.status(200).json({
             item,
             links: {
                 self: `/categories/${item.id}`,

@@ -34,8 +34,8 @@ const getAllItems = async (req, res, next) => {
             skip,
             sort: sortStr,
         });
-        if (!items) {
-            return res.json({ items });
+        if (!items?.length) {
+            throw res.json({ items });
         }
         const datas = (0, idReplacer_1.default)(items);
         const dataItems = (0, query_1.getTransformedItems)({
