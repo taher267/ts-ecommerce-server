@@ -32,5 +32,8 @@ router.route("/:slug").get(controllers_1.getItem);
  * @url base_url/api/v1/products/:id
  * @permession Public
  */
-router.route("/:id").delete(controllers_1.removeItem);
+router
+    .route("/:id")
+    .put((0, zod_schema_validator_1.default)(product_schemas_1.default.productAddSchema), controllers_1.addItem)
+    .delete(controllers_1.removeItem);
 exports.default = router;

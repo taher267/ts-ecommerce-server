@@ -45,7 +45,7 @@ const productSchema = new mongoose_1.default.Schema({
     brand: { type: String, index: 1, minlength: 1, maxlength: 100 },
     regular_price: { type: Number, required: true },
     sale_price: { type: Number },
-    currenty: { type: String, required: true, default: "$" },
+    currency: { type: String, required: true, default: "$" },
     features: [String],
     images: [Image],
 }, { timestamps: true });

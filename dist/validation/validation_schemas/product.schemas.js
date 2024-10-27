@@ -80,12 +80,21 @@ const productAddSchema = zod_1.default.object({
         .min(1, { message: "Sale price must be at least 1 digits!" })
         .max(99999999, { message: "Sale price must be 99999999 digits or less" })
         .optional(),
-    // price: z
-    //   .number({
-    //     required_error: "Price is required",
-    //   })
-    //   .min(1, { message: "Price must be at least 1 digits!" })
-    //   .max(9999999999, { message: "Price must be 9999999999 digits or less" }),
+    categories: zod_1.default.array(zod_1.default.string().trim()).optional(),
+    tags: zod_1.default.array(zod_1.default.string().trim()).optional(),
+    sizes: zod_1.default.array(zod_1.default.string().trim()).optional(),
+    colors: zod_1.default
+        .array(zod_1.default.object({
+        name: zod_1.default
+            .string({
+            required_error: "Name is required",
+        })
+            .optional(),
+        code: zod_1.default.string({
+            required_error: "Code is required",
+        }),
+    }))
+        .optional(),
     currency: zod_1.default
         .string({
         required_error: "Currency is required",
@@ -100,6 +109,29 @@ const productAddSchema = zod_1.default.object({
     }))
         .optional(),
 });
+const productUpdateSchema = (req) => zod_1.default.object({
+    name: zod_1.default
+        .string({
+        required_error: "Name is required",
+    })
+        // .min(1, { message: "Name must be at least 3 characters!" })
+        .max(50, { message: "Name must be 50 characters or less" })
+        .trim(),
+    // .refine(
+    //   async (name) => {
+    //     const exist = await getCategory({ name: new RegExp(name, "i") });
+    //     if (!exist) return true;
+    //     if (exist._id.toString() !== req.params.id) {
+    //       return false;
+    //     }
+    //     return true;
+    //   },
+    //   {
+    //     message: "Name already exists!",
+    //   }
+    // ),
+});
 exports.default = {
     productAddSchema,
+    productUpdateSchema,
 };

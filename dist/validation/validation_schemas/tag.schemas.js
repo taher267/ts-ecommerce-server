@@ -13,7 +13,7 @@ const tagAddSchema = zod_1.default.object({
         .min(3, { message: "Name must be at least 3 characters!" })
         .max(50, { message: "Name must be 50 characters or less" })
         .trim()
-        .refine(async (name) => !Boolean(await (0, tag_1.getTag)({ name })), {
+        .refine(async (name) => !Boolean(await (0, tag_1.getTag)({ name: new RegExp(name, "i") })), {
         message: "Name already exists!",
     }),
 });

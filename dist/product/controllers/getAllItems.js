@@ -119,7 +119,7 @@ const getAllItems = async (req, res, next) => {
         const searchType = req.query.searchType || "";
         const expands = req.query.expands || config_1.defaultQuery?.search || "";
         const { path, url, query } = req;
-        const { items, filter } = await getItems({
+        const { items: data, filter } = await getItems({
             page,
             limit,
             sortType,
@@ -145,8 +145,8 @@ const getAllItems = async (req, res, next) => {
             hasPrev: !!pagination.prev,
             page: Number(page),
         });
-        const manupolated = (0, idReplacer_1.default)(items);
-        res.json({ items: manupolated, links, totalItems, pagination });
+        const items = (0, idReplacer_1.default)(data);
+        res.json({ items, links, totalItems, pagination });
     }
     catch (e) {
         next(e);
