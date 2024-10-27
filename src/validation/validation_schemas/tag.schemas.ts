@@ -9,9 +9,12 @@ const tagAddSchema = z.object({
     .min(3, { message: "Name must be at least 3 characters!" })
     .max(50, { message: "Name must be 50 characters or less" })
     .trim()
-    .refine(async (name) => !Boolean(await getTag({ name })), {
-      message: "Name already exists!",
-    }),
+    .refine(
+      async (name) => !Boolean(await getTag({ name: new RegExp(name, "i") })),
+      {
+        message: "Name already exists!",
+      }
+    ),
 });
 export default {
   tagAddSchema,

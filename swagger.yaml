@@ -829,8 +829,8 @@ paths:
   "/products":
     post:
       operationId: createProduct
-      security:
-        - bearerAuth: []
+      # security:
+      #   - bearerAuth: []
       description: "Create a new Product"
       tags:
         - "Product"
@@ -851,6 +851,7 @@ paths:
           $ref: "#/components/responses/400"
         "500":
           $ref: "#/components/responses/500"
+
     get:
       operationId: AllProducts
       description: "Retrive all products name"
@@ -957,8 +958,33 @@ paths:
         "500":
           "$ref": "#/components/responses/500"
 
+    put:
+      operationId: productUpdate
+      # security:
+      #   - bearerAuth: []
+      description: "Update a new Product"
+      tags:
+        - "Product"
+      requestBody:
+        content:
+          "application/json":
+            schema:
+              $ref: "#/components/schemas/ProductCreate"
+
+      responses:
+        "200":
+          description: Product Update successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Product"
+        "400":
+          $ref: "#/components/responses/400"
+        "500":
+          $ref: "#/components/responses/500"
+
     patch:
-      operationId: updateProduct
+      operationId: updateProductPropertise
       security:
         - bearerAuth: []
       description: "Update product"
@@ -1002,6 +1028,7 @@ paths:
           $ref: "#/components/responses/400"
         "500":
           "$ref": "#/components/responses/500"
+
     delete:
       operationId: DeleteProduct
       security:
@@ -1544,6 +1571,7 @@ paths:
           $ref: "#/components/responses/400"
         "500":
           "$ref": "#/components/responses/500"
+
   "/sizes":
     post:
       operationId: createSize
@@ -1799,6 +1827,7 @@ paths:
           $ref: "#/components/responses/400"
         "500":
           "$ref": "#/components/responses/500"
+
   "/colors":
     post:
       operationId: createColor
@@ -3278,20 +3307,24 @@ components:
         colors:
           type: array
           items:
-            type: object
-            properties:
-              id:
-                type: string
-                description: Unique identifier for the color
-                example: "6713525e652cf392f467dca7"
-              name:
-                type: string
-                description: Name of the color
-                example: "Green"
-              colorCode:
-                type: string
-                description: Hex code of the color
-                example: "#059669"
+            type: string
+            description: Unique identifier for the color
+            example: "6713525e652cf392f467dca7"
+            # type: object
+            # properties:
+            #   id:
+            #     type: string
+            #     description: Unique identifier for the color
+            #     example: "6713525e652cf392f467dca7"
+            #   name:
+            #     type: string
+            #     description: Name of the color
+            #     example: "Green"
+            #   colorCode:
+            #     type: string
+            #     description: Hex code of the color
+            #     example: "#059669"
+
         categories:
           type: array
           items:
@@ -3393,29 +3426,43 @@ components:
         categories:
           type: array
           items:
-            type: string
-            description: Category of the product
-            example: "Cloth"
+            type: object
+            properties:
+              id:
+                type: string
+                description: Unique identifier for the category
+                example: "6713525e652cf392f467dca7"
+              name:
+                type: string
+                description: Name of the color
+                example: "Green"
+
         tags:
           type: array
           items:
-            type: string
-            description: Tag of the product
-            example: "Cloth"
+            type: object
+            properties:
+              id:
+                type: string
+                description: Unique identifier for the Tag
+                example: "6713525e652cf392f467dca7"
+              name:
+                type: string
+                description: Name of the Tag
+                example: "Cloth"
         sizes:
           type: array
           items:
-            type: string
-            description: Size of the product
-            example: "M"
-        rating:
-          type: integer
-          description: Product rating
-          example: 5
-        numberOfReviews:
-          type: integer
-          description: Number of reviews for the product
-          example: 2
+            type: object
+            properties:
+              id:
+                type: string
+                description: Unique identifier for the Size.
+                example: "6713525e652cf392f467dca7"
+              name:
+                type: string
+                description: Size of the product
+                example: "M"
         images:
           type: array
           items:
@@ -3425,6 +3472,16 @@ components:
                 type: string
                 description: URL of the product image
                 example: "https://example.com/product-1.png"
+
+        rating:
+          type: integer
+          description: Product rating
+          example: 5
+        numberOfReviews:
+          type: integer
+          description: Number of reviews for the product
+          example: 2
+
     ProductShort:
       type: object
       properties:

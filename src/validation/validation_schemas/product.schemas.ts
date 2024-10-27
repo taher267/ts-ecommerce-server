@@ -80,12 +80,24 @@ const productAddSchema = z.object({
     .min(1, { message: "Sale price must be at least 1 digits!" })
     .max(99999999, { message: "Sale price must be 99999999 digits or less" })
     .optional(),
-  // price: z
-  //   .number({
-  //     required_error: "Price is required",
-  //   })
-  //   .min(1, { message: "Price must be at least 1 digits!" })
-  //   .max(9999999999, { message: "Price must be 9999999999 digits or less" }),
+  categories: z.array(z.string().trim()).optional(),
+  tags: z.array(z.string().trim()).optional(),
+  sizes: z.array(z.string().trim()).optional(),
+  colors: z
+    .array(
+      z.object({
+        name: z
+          .string({
+            required_error: "Name is required",
+          })
+          .optional(),
+        code: z.string({
+          required_error: "Code is required",
+        }),
+      })
+    )
+    .optional(),
+
   currency: z
     .string({
       required_error: "Currency is required",
@@ -94,6 +106,7 @@ const productAddSchema = z.object({
     .max(5, { message: "Currency must be 5 characters or less" })
     .trim()
     .optional(),
+
   images: z
     .array(
       z.object({
@@ -102,6 +115,32 @@ const productAddSchema = z.object({
     )
     .optional(),
 });
+
+const productUpdateSchema = (req: Request) =>
+  z.object({
+    name: z
+      .string({
+        required_error: "Name is required",
+      })
+      // .min(1, { message: "Name must be at least 3 characters!" })
+      .max(50, { message: "Name must be 50 characters or less" })
+      .trim(),
+    // .refine(
+    //   async (name) => {
+    //     const exist = await getCategory({ name: new RegExp(name, "i") });
+    //     if (!exist) return true;
+    //     if (exist._id.toString() !== req.params.id) {
+    //       return false;
+    //     }
+    //     return true;
+    //   },
+    //   {
+    //     message: "Name already exists!",
+    //   }
+    // ),
+  });
+
 export default {
   productAddSchema,
+  productUpdateSchema,
 };

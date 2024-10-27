@@ -15,6 +15,7 @@ const router = express.Router();
  * @permession ADMIN
  */
 router.post("/", validator(schemas.productAddSchema), addItem);
+
 /**
  * @method GET
  * @url base_url/api/v1/products
@@ -32,5 +33,8 @@ router.route("/:slug").get(getItem);
  * @url base_url/api/v1/products/:id
  * @permession Public
  */
-router.route("/:id").delete(removeItem);
+router
+  .route("/:id")
+  .put(validator(schemas.productAddSchema), addItem)
+  .delete(removeItem);
 export default router;
