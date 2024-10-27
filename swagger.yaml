@@ -3310,39 +3310,25 @@ components:
             type: string
             description: Unique identifier for the color
             example: "6713525e652cf392f467dca7"
-            # type: object
-            # properties:
-            #   id:
-            #     type: string
-            #     description: Unique identifier for the color
-            #     example: "6713525e652cf392f467dca7"
-            #   name:
-            #     type: string
-            #     description: Name of the color
-            #     example: "Green"
-            #   colorCode:
-            #     type: string
-            #     description: Hex code of the color
-            #     example: "#059669"
 
         categories:
           type: array
           items:
             type: string
-            description: Category of the product
-            example: "Cloth"
+            description: Unique identifier for the category
+            example: "6713525e652cf392f467dca7"
         tags:
           type: array
           items:
             type: string
-            description: Tag of the product
-            example: "Cloth"
+            description: Unique identifier for the tag
+            example: "6713525e652cf392f467dca7"
         sizes:
           type: array
           items:
             type: string
-            description: Size of the product
-            example: "M"
+            description: Unique identifier for the size
+            example: "6713525e652cf392f467dca7"
         images:
           type: array
           items:
