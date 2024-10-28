@@ -8,8 +8,8 @@ const addItem = async (
   next: ex.NextFunction
 ) => {
   try {
-    const { tag_id, product_id } = req.body;
-    const newObj: newProductTagProps = { tag_id, product_id };
+    const { tag_ids, product_id } = req.body;
+    const newObj: newProductTagProps = { tag_ids, product_id };
     const product = await addProductTag(newObj);
     res.json({ product, success: true });
   } catch (e) {

@@ -8,10 +8,10 @@ const addItem = async (
   next: express.NextFunction
 ) => {
   try {
-    const { product_id, color_id } = req.body;
+    const { product_id, color_ids } = req.body;
     const newObj: newProductColorProps = {
       product_id,
-      color_id,
+      color_ids,
     };
     const item = await addProductColor(newObj);
     res.json({ item, success: true });

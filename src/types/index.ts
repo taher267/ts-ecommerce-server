@@ -50,8 +50,8 @@ export interface newSizeProps {
 
 export interface newProductSizeProps {
   _id?: ObjectId;
-  size_id: ObjectId;
   product_id: ObjectId;
+  size_ids: ObjectId[];
   stock?: Number;
 }
 
@@ -63,8 +63,8 @@ export interface newColorProps {
 
 export interface newProductColorProps {
   _id?: ObjectId;
-  product_id: string;
-  color_id: string;
+  product_id: ObjectId;
+  color_ids: ObjectId[];
 }
 
 export interface newTagProps {
@@ -74,6 +74,6 @@ export interface newTagProps {
 
 export interface newProductTagProps {
   _id?: ObjectId;
-  product_id: string;
-  tag_id: string;
+  product_id: ObjectId;
+  tag_ids: ObjectId[];
 }
